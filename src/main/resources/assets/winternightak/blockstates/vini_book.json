@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "winternightak:block/vini_book",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "winternightak:block/vini_book",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "winternightak:block/vini_book"
+    },
+    "facing=west": {
+      "model": "winternightak:block/vini_book",
+      "y": 90
+    }
+  }
+}

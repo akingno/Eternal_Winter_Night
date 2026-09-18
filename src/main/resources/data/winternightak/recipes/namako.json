@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PKP",
+    "KTK",
+    "PKP"
+  ],
+  "key": {
+    "P": {
+      "item": "winternightak:plaster"
+    },
+    "K": {
+      "item": "winternightak:kawara"
+    },
+    "T": {
+      "item": "winternightak:tudura"
+    }
+  },
+  "result": {
+    "item": "winternightak:namako",
+    "count": 8
+  }
+}

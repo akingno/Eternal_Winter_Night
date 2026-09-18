@@ -1,0 +1,15 @@
+{
+  "block.winternightak.permafrost": "Permafrost",
+  "block.winternightak.frozen_soil": "Frozen Soil",
+  "block.winternightak.hard_ice": "Hard Ice",
+  "block.winternightak.ice_slab": "Ice Slab",
+  "item.winternightak.animal_fat": "Animal Fat",
+  "item.winternightak.raw_game_meat": "Raw Game Meat",
+  "item.winternightak.ice_brick": "Ice Brick",
+  "item.winternightak.ice_pick": "Ice Pick",
+  "creativetab.winternightak.winter_night_tab": "Winter Night",
+  "generator.winternightak.winter_night": "Winter Night",
+  "biome.winternightak.polar_ice_cap": "Polar Ice Cap",
+  "biome.winternightak.ice_plain": "Ice Plain",
+  "biome.winternightak.polar_ocean": "Polar Ocean"
+}

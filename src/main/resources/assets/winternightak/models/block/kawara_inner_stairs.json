@@ -1,0 +1,8 @@
+{
+    "parent": "block/inner_stairs",
+    "textures": {
+        "bottom": "winternightak:block/kawara",
+        "top": "winternightak:block/kawara",
+        "side": "winternightak:block/kawara"
+    }
+}

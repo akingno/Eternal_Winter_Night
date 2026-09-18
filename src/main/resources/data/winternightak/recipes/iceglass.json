@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    " I ",
+    " B "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:sugar"
+    },
+    "I": {
+      "item": "minecraft:snow_block"
+    },
+    "B": {
+      "item": "winternightak:bamboo_bucket"
+    }
+  },
+  "result": {
+    "item": "winternightak:iceglass",
+    "count": 1
+  }
+}

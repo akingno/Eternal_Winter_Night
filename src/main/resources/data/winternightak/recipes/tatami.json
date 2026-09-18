@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "winternightak:tudura"
+    },
+    "W": {
+      "item": "minecraft:wheat"
+    }
+  },
+  "pattern": [
+    " W ",
+    "W#W",
+    " W "
+  ],
+  "result": {
+    "count": 4,
+    "item": "winternightak:tatami"
+  },
+  "show_notification": true
+}

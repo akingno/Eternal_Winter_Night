@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "winternightak:block/tatami_nb",
+    "side": "winternightak:block/tatami_nb",
+    "top": "winternightak:block/tatami_nb"
+  }
+}

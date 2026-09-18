@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:salmon" },
+    { "item": "winternightak:meshi" }
+  ],
+  "result": {
+    "item": "winternightak:tekka",
+    "count": 1
+  }
+}

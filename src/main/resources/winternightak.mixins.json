@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.akingno.winternightak.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "winternightak.refmap.json",
+  "mixins": ["SnowBlockGravityMixin", "RabbitMovementMixin", "PolarAnimalGroundMixin"],
+  "injectors": { "defaultRequire": 1 }
+}

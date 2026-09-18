@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "winternightak:tatami"
+    }
+  ],
+  "result": {
+    "item": "winternightak:tatami_nb",
+    "count": 1
+  }
+}

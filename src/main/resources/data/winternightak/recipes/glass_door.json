@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SPS",
+    "STS",
+    "SPS"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:iron_bars"
+    },
+    "T": {
+      "item": "winternightak:tudura"
+    },
+    "P": {
+      "item": "minecraft:glass_pane"
+    }
+  },
+  "result": {
+    "item": "winternightak:glass_door",
+    "count": 2
+  }
+}

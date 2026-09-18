@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "winternightak:block/waterwheel",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "winternightak:block/waterwheel",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "winternightak:block/waterwheel"
+    },
+    "facing=west": {
+      "model": "winternightak:block/waterwheel",
+      "y": 90
+    }
+  }
+}

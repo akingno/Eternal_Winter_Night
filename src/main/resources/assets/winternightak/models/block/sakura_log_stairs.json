@@ -1,0 +1,8 @@
+{
+    "parent": "block/stairs",
+    "textures": {
+        "bottom": "winternightak:block/sakura_log",
+        "top": "winternightak:block/sakura_log",
+        "side": "winternightak:block/sakura_log"
+    }
+}

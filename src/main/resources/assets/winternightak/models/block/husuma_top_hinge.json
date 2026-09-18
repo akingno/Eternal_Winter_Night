@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_right",
+  "textures": {
+    "top": "winternightak:block/husuma_top",
+    "bottom": "winternightak:block/husuma_bottom"
+  }
+}

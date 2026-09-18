@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:wheat" },
+    { "item": "winternightak:bamboo_bucket" }
+  ],
+  "result": {
+    "item": "winternightak:meshi",
+    "count": 1
+  }
+}

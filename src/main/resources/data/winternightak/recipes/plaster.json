@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SBS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:sand"
+    },
+    "B": {
+      "item": "winternightak:tudura"
+    }
+  },
+  "result": {
+    "item": "winternightak:plaster",
+    "count": 8
+  }
+}

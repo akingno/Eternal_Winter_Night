@@ -1,0 +1,8 @@
+{
+    "parent": "winternightak:block/vertical_slab",
+    "textures": {
+        "bottom": "winternightak:block/kawara",
+        "top": "winternightak:block/kawara",
+        "side": "winternightak:block/kawara"
+    }
+}

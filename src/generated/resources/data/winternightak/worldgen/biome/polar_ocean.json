@@ -1,0 +1,45 @@
+{
+  "carvers": {},
+  "creature_spawn_probability": 0.15,
+  "downfall": 0.5,
+  "effects": {
+    "fog_color": 6589610,
+    "sky_color": 7440033,
+    "water_color": 2379365,
+    "water_fog_color": 1059645
+  },
+  "features": [],
+  "has_precipitation": false,
+  "spawn_costs": {},
+  "spawners": {
+    "ambient": [],
+    "axolotls": [],
+    "creature": [],
+    "misc": [],
+    "monster": [],
+    "underground_water_creature": [],
+    "water_ambient": [
+      {
+        "type": "minecraft:salmon",
+        "maxCount": 5,
+        "minCount": 3,
+        "weight": 10
+      },
+      {
+        "type": "minecraft:cod",
+        "maxCount": 5,
+        "minCount": 3,
+        "weight": 10
+      }
+    ],
+    "water_creature": [
+      {
+        "type": "minecraft:squid",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 10
+      }
+    ]
+  },
+  "temperature": 0.5
+}

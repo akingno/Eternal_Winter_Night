@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "winternightak:block/andon",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "winternightak:block/andon",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "winternightak:block/andon"
+    },
+    "facing=west": {
+      "model": "winternightak:block/andon",
+      "y": 90
+    }
+  }
+}

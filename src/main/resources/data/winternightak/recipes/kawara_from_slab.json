@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "P",
+    "P"
+  ],
+  "key": {
+    "P": {
+      "item": "winternightak:kawara_slab"
+    }
+  },
+  "result": {
+    "item": "winternightak:kawara",
+    "count": 1
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_right",
+  "textures": {
+    "top": "winternightak:block/glass_door_top",
+    "bottom": "winternightak:block/glass_door_bottom"
+  }
+}

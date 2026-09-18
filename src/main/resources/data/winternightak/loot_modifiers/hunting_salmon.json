@@ -1,0 +1,14 @@
+{
+  "type": "winternightak:hunting",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:entities/salmon"
+    }
+  ],
+  "table": "winternightak:hunting/salmon",
+  "remove_items": [
+    "minecraft:salmon",
+    "minecraft:cooked_salmon"
+  ]
+}

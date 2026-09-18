@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "winternightak:block/tatami_nb",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "winternightak:block/tatami_nb"
+    },
+    "facing=south": {
+      "model": "winternightak:block/tatami_nb",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "winternightak:block/tatami_nb",
+      "y": 270
+    }
+  }
+}

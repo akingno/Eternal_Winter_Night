@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "winternightak:block/sakura_leaves"
+  }
+}

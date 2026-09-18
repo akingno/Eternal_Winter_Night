@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "winternightak:sakura_planks"
+    }
+  },
+  "result": {
+    "item": "winternightak:sakura_stairs",
+    "count": 4
+  }
+}

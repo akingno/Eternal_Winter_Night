@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "winternightak:block/sakura_log_slab" },
+        "type=top": { "model": "winternightak:block/sakura_log_slab_top" },
+        "type=double": { "model": "winternightak:block/sakura_log" }
+    }
+}

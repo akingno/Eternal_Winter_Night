@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "winternightak:block/ice_slab"
+    },
+    "type=top": {
+      "model": "winternightak:block/ice_slab_top"
+    },
+    "type=double": {
+      "model": "winternightak:block/hard_ice"
+    }
+  }
+}

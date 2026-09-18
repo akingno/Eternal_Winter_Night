@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:cooked_beef" },
+    { "item": "winternightak:meshi" }
+  ],
+  "result": {
+    "item": "winternightak:gyumeshi",
+    "count": 1
+  }
+}

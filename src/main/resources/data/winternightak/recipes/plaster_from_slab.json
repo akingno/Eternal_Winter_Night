@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "P",
+    "P"
+  ],
+  "key": {
+    "P": {
+      "item": "winternightak:plaster_slab"
+    }
+  },
+  "result": {
+    "item": "winternightak:plaster",
+    "count": 1
+  }
+}

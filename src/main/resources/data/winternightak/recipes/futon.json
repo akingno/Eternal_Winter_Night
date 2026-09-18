@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " T ",
+    "BBB",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:white_wool"
+    },
+    "T": {
+      "item": "winternightak:tudura"
+    }
+  },
+  "result": {
+    "item": "winternightak:futon",
+    "count": 1
+  }
+}

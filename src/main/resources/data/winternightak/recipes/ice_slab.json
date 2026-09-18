@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "winternightak:ice_brick"
+    }
+  },
+  "result": {
+    "item": "winternightak:ice_slab",
+    "count": 1
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "STS",
+    "SPS"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "T": {
+      "item": "winternightak:tudura"
+    },
+    "P": {
+      "item": "minecraft:torch"
+    }
+  },
+  "result": {
+    "item": "winternightak:andon",
+    "count": 1
+  }
+}

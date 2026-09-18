@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "winternightak:bamboo_shoot" },
+    { "item": "winternightak:meshi" }
+  ],
+  "result": {
+    "item": "winternightak:takedon",
+    "count": 1
+  }
+}

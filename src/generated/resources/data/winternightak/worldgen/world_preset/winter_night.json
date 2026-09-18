@@ -1,0 +1,106 @@
+{
+  "dimensions": {
+    "minecraft:overworld": {
+      "type": "winternightak:polar",
+      "generator": {
+        "type": "minecraft:noise",
+        "biome_source": {
+          "type": "minecraft:multi_noise",
+          "biomes": [
+            {
+              "biome": "winternightak:polar_ocean",
+              "parameters": {
+                "continentalness": [
+                  -2.0,
+                  -0.18
+                ],
+                "depth": [
+                  -2.0,
+                  2.0
+                ],
+                "erosion": [
+                  -2.0,
+                  2.0
+                ],
+                "humidity": [
+                  -2.0,
+                  2.0
+                ],
+                "offset": 0.0,
+                "temperature": [
+                  -2.0,
+                  2.0
+                ],
+                "weirdness": [
+                  -2.0,
+                  2.0
+                ]
+              }
+            },
+            {
+              "biome": "winternightak:polar_ice_cap",
+              "parameters": {
+                "continentalness": [
+                  -0.18,
+                  0.42
+                ],
+                "depth": [
+                  -2.0,
+                  2.0
+                ],
+                "erosion": [
+                  -2.0,
+                  2.0
+                ],
+                "humidity": [
+                  -2.0,
+                  2.0
+                ],
+                "offset": 0.0,
+                "temperature": [
+                  -2.0,
+                  2.0
+                ],
+                "weirdness": [
+                  -2.0,
+                  2.0
+                ]
+              }
+            },
+            {
+              "biome": "winternightak:ice_plain",
+              "parameters": {
+                "continentalness": [
+                  0.42,
+                  2.0
+                ],
+                "depth": [
+                  -2.0,
+                  2.0
+                ],
+                "erosion": [
+                  -2.0,
+                  2.0
+                ],
+                "humidity": [
+                  -2.0,
+                  2.0
+                ],
+                "offset": 0.0,
+                "temperature": [
+                  -2.0,
+                  2.0
+                ],
+                "weirdness": [
+                  -2.0,
+                  2.0
+                ]
+              }
+            }
+          ]
+        },
+        "settings": "winternightak:polar"
+      }
+    }
+  }
+}

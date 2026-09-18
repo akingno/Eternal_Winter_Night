@@ -1,0 +1,15 @@
+{
+  "type": "winternightak:hunting",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:entities/rabbit"
+    }
+  ],
+  "table": "winternightak:hunting/rabbit",
+  "remove_items": [
+    "minecraft:rabbit",
+    "minecraft:cooked_rabbit",
+    "minecraft:rabbit_hide"
+  ]
+}

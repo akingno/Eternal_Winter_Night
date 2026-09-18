@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "E",
+    "C",
+    "M"
+  ],
+  "key": {
+    "E": { "item": "minecraft:egg" },
+    "C": { "item": "minecraft:cooked_chicken" },
+    "M": { "item": "winternightak:meshi" }
+  },
+  "result": {
+    "item": "winternightak:oyakodon",
+    "count": 1
+  }
+}
