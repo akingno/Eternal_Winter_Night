@@ -32,6 +32,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 /** Floor torch; stored item fuel does not tick and has no carried-temperature modifier. */
+/** 地面火把：不添加手持计时或手持供暖；放置默认熄灭，有余料才允许打火石点燃。 */
 public class PolarTorchBlock extends TorchBlock implements EntityBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
@@ -53,6 +54,7 @@ public class PolarTorchBlock extends TorchBlock implements EntityBlock {
         if (state.getValue(LIT)) super.animateTick(state, level, pos, random);
     }
 
+    // 打火石点燃剩余燃料；0燃料不可再点燃，潜行空手只熄灭，不增加燃料。
     @Override public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!(level.getBlockEntity(pos) instanceof PolarTorchBlockEntity torch)) return InteractionResult.PASS;
         ItemStack held = player.getItemInHand(hand);
@@ -77,6 +79,7 @@ public class PolarTorchBlock extends TorchBlock implements EntityBlock {
         return InteractionResult.PASS;
     }
 
+    // 物品提示读取BlockEntityTag余料；(fuel+19)/20将不足1秒的余量也显示为1秒。
     @Override public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
         var data = stack.getTagElement("BlockEntityTag");
         int fuel = data != null && data.contains("FuelTicks") ? data.getInt("FuelTicks") : TorchSettings.FUEL_TICKS;

@@ -17,8 +17,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+// 只给原版整块雪SNOW_BLOCK加重力，薄雪SNOW不受影响；所有维度均生效。
 @Mixin(BlockBehaviour.class)
 public abstract class SnowBlockGravityMixin {
+    // 延迟2tick检查是原版沙子式调度；调低反应更快，调高落下前停留更久。
     @Inject(method = "onPlace", at = @At("HEAD"))
     private void winterNight$schedulePlacement(BlockState state, Level level, BlockPos pos,
                                                BlockState oldState, boolean moving, CallbackInfo ci) {
@@ -32,6 +34,7 @@ public abstract class SnowBlockGravityMixin {
         if (state.is(Blocks.SNOW_BLOCK)) level.scheduleTick(pos, Blocks.SNOW_BLOCK, 2);
     }
 
+    // 仅下方可供下落时生成FallingBlockEntity，落地/掉落交给原版处理。
     @Inject(method = "tick", at = @At("HEAD"))
     private void winterNight$fall(BlockState state, ServerLevel level, BlockPos pos, RandomSource random, CallbackInfo ci) {
         if (state.is(Blocks.SNOW_BLOCK) && pos.getY() >= level.getMinBuildHeight()

@@ -1,0 +1,6 @@
+{
+  "type": "winternightak:snowy_village",
+  "biomes": "winternightak:ice_plain",
+  "spawn_overrides": {},
+  "step": "surface_structures"
+}

@@ -38,6 +38,7 @@ public class WinterNight
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModCreativeModTabs.register(modEventBus);
 
+        // 公共注册入口：物品/方块/方块实体/网络/地物/结构类型必须在注册阶段挂到事件总线。
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         com.akingno.winternightak.block.entity.ModBlockEntities.TYPES.register(modEventBus);
@@ -45,6 +46,9 @@ public class WinterNight
         ModParticles.register(modEventBus);
         ModLootModifiers.SERIALIZERS.register(modEventBus);
         com.akingno.winternightak.world.gen.PolarSnowFeature.FEATURES.register(modEventBus);
+        com.akingno.winternightak.world.gen.PolarDeadTreeFeature.register();
+        com.akingno.winternightak.world.gen.PolarVillages.TYPES.register(modEventBus);
+        com.akingno.winternightak.world.gen.PolarVillages.ELEMENT_TYPES.register(modEventBus);
 
 
         modEventBus.addListener(this::commonSetup);

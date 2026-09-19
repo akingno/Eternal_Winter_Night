@@ -16,6 +16,7 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, WinterNight.MOD_ID);
 
+    // 第一、二阶段资源入口：油脂是燃料，兽肉复用生牛肉食物值，冰砖为物品而非可放方块。
     public static final RegistryObject<Item> ANIMAL_FAT = ITEMS.register("animal_fat",
             () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> FUR_WRAP = ITEMS.register("fur_wrap",
@@ -24,6 +25,7 @@ public class ModItems {
             () -> new Item(new Item.Properties().food(Foods.BEEF)));
     public static final RegistryObject<Item> ICE_BRICK = ITEMS.register("ice_brick",
             () -> new Item(new Item.Properties()));
+    // 冰镐使用铁级耐久/速度；1与-2.8分别是额外攻击伤害和攻击速度修饰，不影响生成概率。
     public static final RegistryObject<Item> ICE_PICK = ITEMS.register("ice_pick",
             () -> new IcePickItem(Tiers.IRON, 1, -2.8F, new Item.Properties()));
 

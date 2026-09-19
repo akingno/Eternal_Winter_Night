@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+// 拦截原版通用点火判定，只限制本模组营火；打火石交互由方块自身执行带燃料检查的点火。
 @Mixin(CampfireBlock.class)
 public abstract class CampfireIgnitionMixin {
     @Inject(method = "canLight", at = @At("HEAD"), cancellable = true)

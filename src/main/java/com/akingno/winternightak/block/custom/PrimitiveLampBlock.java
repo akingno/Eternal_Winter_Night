@@ -31,9 +31,11 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.List;
 import javax.annotation.Nullable;
 
+/** 油灯交互与外观状态：LIT表示正在燃烧，WATERLOGGED表示浸水；燃料余量由方块实体保存。 */
 public class PrimitiveLampBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    // 选中框使用0～16的方块局部坐标；这些数字只改灯体尺寸，不改变热量。
     private static final VoxelShape SHAPE = Block.box(5, 0, 5, 11, 6, 11);
 
     public PrimitiveLampBlock(Properties properties) {
@@ -73,6 +75,7 @@ public class PrimitiveLampBlock extends BaseEntityBlock implements SimpleWaterlo
     }
 
     @Override
+    // 注水同步熄灭，余料仍保留；方块更新标记3表示通知客户端与邻居。
     public boolean placeLiquid(LevelAccessor level, BlockPos pos, BlockState state, FluidState fluid) {
         if (!SimpleWaterloggedBlock.super.placeLiquid(level, pos, state, fluid)) return false;
         if (!level.isClientSide()) level.setBlock(pos, level.getBlockState(pos).setValue(LIT, false), 3);
@@ -80,6 +83,7 @@ public class PrimitiveLampBlock extends BaseEntityBlock implements SimpleWaterlo
     }
 
     @Override
+    // 交互顺序为添料→打火石→空手查看/潜行熄灭；添料不自动点火。
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!(level.getBlockEntity(pos) instanceof PrimitiveLampBlockEntity lamp)) return InteractionResult.PASS;
         ItemStack held = player.getItemInHand(hand);
@@ -93,6 +97,7 @@ public class PrimitiveLampBlock extends BaseEntityBlock implements SimpleWaterlo
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
+        // 有料且未浸水才点燃；hurtAndBreak的1是一次打火石耐久消耗。
         if (held.is(Items.FLINT_AND_STEEL)) {
             if (!level.isClientSide) {
                 if (state.getValue(WATERLOGGED)) player.displayClientMessage(Component.translatable("message.winternightak.lamp_wet"), true);

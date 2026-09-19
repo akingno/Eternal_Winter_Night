@@ -26,6 +26,7 @@ public class PolarCampfireBlockEntity extends CampfireBlockEntity {
         return FuelSettings.fuelTicks(stack);
     }
 
+    // 整份加入，不允许超出容量；返回false时交互方不得扣除玩家物品。
     public boolean addFuel(int ticks) {
         if (level == null || level.isClientSide || ticks <= 0 || ticks > CampfireSettings.MAX_FUEL_TICKS - fuelTicks) return false;
         fuelTicks += ticks;
@@ -34,6 +35,7 @@ public class PolarCampfireBlockEntity extends CampfireBlockEntity {
         return true;
     }
 
+    // 熄灭时复用原版烹饪冷却；干燥且有料才烹饪并扣1tick，燃尽或浸水即熄灭。
     public static void serverTick(Level level, BlockPos pos, BlockState state, PolarCampfireBlockEntity fire) {
         if (!state.getValue(CampfireBlock.LIT)) {
             CampfireBlockEntity.cooldownTick(level, pos, state, fire);
@@ -50,6 +52,7 @@ public class PolarCampfireBlockEntity extends CampfireBlockEntity {
         }
     }
 
+    // NBT持久化余料，钳制到0～容量；父类负责四槽食物，不能省略super.load。
     @Override public void load(CompoundTag tag) {
         super.load(tag);
         fuelTicks = Mth.clamp(tag.getInt("FuelTicks"), 0, CampfireSettings.MAX_FUEL_TICKS);

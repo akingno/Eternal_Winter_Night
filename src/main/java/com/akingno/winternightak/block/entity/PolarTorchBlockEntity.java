@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
+/** 火把只保存剩余燃烧tick；掉落表将FuelTicks写入物品BlockEntityTag，重新放置时恢复余量。 */
 public class PolarTorchBlockEntity extends BlockEntity {
     private int fuelTicks = TorchSettings.FUEL_TICKS;
 
@@ -27,6 +28,7 @@ public class PolarTorchBlockEntity extends BlockEntity {
         if (torch.fuelTicks == 0) level.setBlock(pos, state.setValue(BlockStateProperties.LIT, false), 3);
     }
 
+    // 新物品无FuelTicks时使用初始时长；明确保存的0必须保留，防止捡起燃尽火把刷满燃料。
     @Override public void load(CompoundTag tag) {
         super.load(tag);
         fuelTicks = tag.contains("FuelTicks") ? Mth.clamp(tag.getInt("FuelTicks"), 0, TorchSettings.FUEL_TICKS) : TorchSettings.FUEL_TICKS;

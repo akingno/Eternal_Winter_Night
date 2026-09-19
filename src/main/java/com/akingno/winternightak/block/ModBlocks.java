@@ -24,6 +24,7 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, WinterNight.MOD_ID);
 
+    // 此处注册设备方块及其照明；配方/掉落在data资源中，供暖在compat.CampfireTemperature。
     public static final RegistryObject<Block> POLAR_TORCH = registerBlock("polar_torch",
             () -> new PolarTorchBlock(BlockBehaviour.Properties.copy(Blocks.TORCH)
                     .lightLevel(state -> state.getValue(PolarTorchBlock.LIT) ? 14 : 0)));
@@ -37,6 +38,7 @@ public class ModBlocks {
                     .strength(0.2F).lightLevel(state -> state.getValue(PrimitiveLampBlock.LIT)
                             ? com.akingno.winternightak.block.entity.LampSettings.LIGHT_LEVEL : 0)));
 
+    // 永久冻土继承基岩强度且不掉落；冻结土壤可挖；硬冰用铁块强度并在HardIceBlock限制工具。
     public static final RegistryObject<Block> PERMAFROST = registerBlock("permafrost",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.BEDROCK)
                     .mapColor(MapColor.DIRT).sound(SoundType.GRAVEL).noLootTable()));

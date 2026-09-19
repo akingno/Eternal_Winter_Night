@@ -16,6 +16,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import java.util.List;
 
+// 每个区块补薄雪的地物；仅覆盖硬冰/冻结土壤，不覆盖建筑或改成整块雪。
 public class PolarSnowFeature extends Feature<NoneFeatureConfiguration> {
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, WinterNight.MOD_ID);
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> SNOW = FEATURES.register("polar_snow", PolarSnowFeature::new);
@@ -35,6 +36,7 @@ public class PolarSnowFeature extends Feature<NoneFeatureConfiguration> {
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         var level = context.level();
+        // 16是区块边长，不是密度参数；完整遍历本区块的256个地表列。
         for (int x = 0; x < 16; x++) for (int z = 0; z < 16; z++) {
             BlockPos top = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, context.origin().offset(x, 0, z));
             var ground = level.getBlockState(top.below());

@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+// 硬冰虽能站立但不遮挡渲染，原版isSolidRender会拒绝；这里只修正兔子目的地判断。
 @Mixin(PathNavigation.class)
 public abstract class RabbitNavigationMixin {
     @Shadow @Final protected Mob mob;

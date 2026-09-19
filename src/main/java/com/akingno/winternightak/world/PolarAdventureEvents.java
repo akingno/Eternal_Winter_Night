@@ -19,10 +19,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = WinterNight.MOD_ID)
+/** 服务端入口：每秒维护暴雪、供暖与营地，登录/重生时同步状态，并注册管理员命令。 */
 public final class PolarAdventureEvents {
     @SubscribeEvent public static void tick(TickEvent.ServerTickEvent event) {
         if (event.phase != TickEvent.Phase.END) return;
         for (var level : event.getServer().getAllLevels()) {
+            // 每20tick（1秒）执行一次维护，避免每tick重复遍历玩家与进行营地选址。
             if (level.getGameTime() % 20 != 0 || !level.dimensionTypeRegistration().is(PolarWorldgen.DIMENSION_TYPE)) continue;
             var storm = BlizzardData.get(level);
             storm.tick(level);
@@ -69,7 +71,8 @@ public final class PolarAdventureEvents {
                 String[] directions = {"北", "东", "南", "西"};
                 for (int i = 0; i < 4; i++) {
                     var pos = data.camp(i);
-                    String message = directions[i] + "营地：" + (pos == null ? "正在选址" : pos.toShortString());
+                    String message = directions[i] + "营地：" + (pos == null
+                            ? (data.skipped(i) ? "已跳过（有限次数内未找到合适位置）" : "正在选址") : pos.toShortString());
                     context.getSource().sendSuccess(() -> Component.literal(message), false);
                 }
                 return 1;

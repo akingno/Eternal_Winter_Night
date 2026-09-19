@@ -23,6 +23,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.Set;
 
 @Mod.EventBusSubscriber(modid = WinterNight.MOD_ID)
+/** 极地世界生物白名单与生成条件；这里控制种类和地面条件，刷新权重在PolarWorldgen中调整。 */
 public final class PolarSpawning {
     private static final Set<EntityType<?>> ALLOWED = Set.of(EntityType.RABBIT, EntityType.FOX,
             EntityType.WOLF, EntityType.SQUID, EntityType.SALMON, EntityType.COD, EntityType.VILLAGER);
@@ -32,6 +33,7 @@ public final class PolarSpawning {
         if (event.getLevel().isClientSide || !event.getLevel().dimensionTypeRegistration().is(PolarWorldgen.DIMENSION_TYPE)) return;
         if (event.getEntity() instanceof Rabbit rabbit) rabbit.setVariant(Rabbit.Variant.WHITE);
         if (event.getEntity() instanceof Fox fox) fox.setVariant(Fox.Type.SNOW);
+        // 仅首次生成处理叼物，读档不重复随机；0.10调高更常叼物，nextBoolean保持肉/皮毛各一半。
         if (!event.loadedFromDisk() && event.getEntity() instanceof Fox fox) {
             fox.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
             if (fox.getRandom().nextFloat() < 0.10F) {
@@ -39,6 +41,7 @@ public final class PolarSpawning {
                         ? ModItems.RAW_GAME_MEAT.get() : ItemInit.GOAT_FUR.get()));
             }
         }
+        // 只拦截白名单之外的原版Mob，避免无意删除其他模组实体；同样涵盖刷怪蛋和结构带入的猫/铁傀儡。
         if (event.getEntity() instanceof Mob mob && !ALLOWED.contains(mob.getType())
                 && "minecraft".equals(ForgeRegistries.ENTITY_TYPES.getKey(mob.getType()).getNamespace()))
             event.setCanceled(true);
@@ -68,7 +71,7 @@ public final class PolarSpawning {
         boolean island = ground.is(ModBlocks.FROZEN_SOIL.get());
         boolean cap = ground.is(ModBlocks.HARD_ICE.get());
         boolean clear = (at.isAir() || at.is(Blocks.SNOW)) && level.getBlockState(pos.above()).isAir();
-        // Polar nights and custom ground replace vanilla grass/light requirements.
+        // 用极地地面替代原版草方块/光照限制；仍检查身体空间。狼只允许冻结土壤，兔狐允许硬冰。
         event.setResult(clear && (island || cap && type != EntityType.WOLF) ? Event.Result.ALLOW : Event.Result.DENY);
     }
 }

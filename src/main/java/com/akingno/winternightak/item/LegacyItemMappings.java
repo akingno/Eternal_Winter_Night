@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.MissingMappingsEvent;
 
-/** Preserve fur already stored in earlier test worlds. */
+/** 旧存档兼容：把已移除的本模组fur物品映射到Cold Sweat毛皮，避免旧背包物品丢失。 */
 @Mod.EventBusSubscriber(modid = WinterNight.MOD_ID)
 public final class LegacyItemMappings {
     @SubscribeEvent

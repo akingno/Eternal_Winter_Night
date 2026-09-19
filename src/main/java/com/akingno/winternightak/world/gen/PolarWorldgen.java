@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.OptionalLong;
 
-/** Vanilla noise generation with an explicit, cave-free ocean/ice/island density graph. */
+/** 原版噪声生成器的极地配置：先决定海洋/冰盖/岛屿形状，再替换表层材料；不添加洞穴。 */
 public final class PolarWorldgen {
     public static final ResourceKey<Biome> ICE_CAP = key(Registries.BIOME, "polar_ice_cap");
     public static final ResourceKey<Biome> ICE_PLAIN = key(Registries.BIOME, "ice_plain");
@@ -37,10 +37,13 @@ public final class PolarWorldgen {
     public static final ResourceKey<DimensionType> DIMENSION_TYPE = key(Registries.DIMENSION_TYPE, "polar");
     public static final ResourceKey<WorldPreset> PRESET = key(Registries.WORLD_PRESET, "winter_night");
 
+    // 建造下限-64、总高度384，沿用主世界尺度；不要只改一项，否则地形和维度范围会错位。
     public static final int MIN_Y = -64;
     public static final int HEIGHT = 384;
+    // 原版海平面参数63表示水面最高方块通常为Y=62；调高会抬升海水，须同步调整冰层公式。
     public static final int SEA_LEVEL = 63;
-    // Approximate 27% ocean / 65% cap / 8% island; individual seeds vary.
+    // 目标约27%海洋/65%冰盖/8%冰原，不是逐区块精确抽签，种子不同实际面积会有波动。
+    // 海洋阈值调高→海洋更多；岛屿阈值调高→冰原更少；两者之间为冰盖。
     public static final float OCEAN_THRESHOLD = -0.18F;
     public static final float ISLAND_THRESHOLD = 0.42F;
 
@@ -49,21 +52,26 @@ public final class PolarWorldgen {
     }
 
     public static void bootstrapBiomes(BootstapContext<Biome> context) {
-        context.register(ICE_CAP, biome(context, -0.5F, true, 0xA3C9E0));
-        context.register(ICE_PLAIN, biome(context, -0.4F, true, 0xB9D8E8));
+        context.register(ICE_CAP, biome(context, -0.5F, true, 0xA3C9E0, false));
+        context.register(ICE_PLAIN, biome(context, -0.4F, true, 0xB9D8E8, true));
         // Vanilla freezing is controlled separately from Cold Sweat's environmental temperatures.
-        context.register(OCEAN, biome(context, 0.16F, false, 0x648CAA));
+        context.register(OCEAN, biome(context, 0.16F, false, 0x648CAA, false));
     }
 
-    private static Biome biome(BootstapContext<Biome> context, float temperature, boolean precipitation, int fog) {
+    private static Biome biome(BootstapContext<Biome> context, float temperature, boolean precipitation, int fog, boolean icePlain) {
+        // 0.05是新区块初始动物生成概率，调低更少；不直接等同于日后自然刷新的每tick概率。
         var spawns = new MobSpawnSettings.Builder().creatureGenerationProbability(0.05F);
         var generation = new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE),
                 context.lookup(Registries.CONFIGURED_CARVER));
         if (precipitation) {
+            // SpawnerData依次为种类、相对权重、每群最少、每群最多；权重不是百分比。
+            // 兔子12、狐狸1：降低某种的权重会降低其相对占比；降低群数量会减少一次出现的只数。
             spawns.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.RABBIT, 12, 1, 3));
             spawns.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.FOX, 1, 1, 1));
             if (temperature > -0.5F)
                 spawns.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.WOLF, 1, 1, 2));
+            // 仅雪原生成枯木，明确按群系用途区分，不依赖温度数值判断。
+            if (icePlain) generation.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PolarDeadTreeFeature.PLACED);
             generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, PolarSnowFeature.PLACED);
         } else {
             spawns.addSpawn(MobCategory.WATER_CREATURE, new MobSpawnSettings.SpawnerData(EntityType.SQUID, 10, 1, 3));
@@ -77,7 +85,9 @@ public final class PolarWorldgen {
     }
 
     public static void bootstrapNoises(BootstapContext<NormalNoise.NoiseParameters> context) {
+        // 首八度-10控制大片地形尺度，越负通常越连片；两个1.0为噪声分量权重，不是群系比例。
         context.register(LAND_DISTRIBUTION, new NormalNoise.NoiseParameters(-10, 1.0, 1.0));
+        // -5的尺度比群系噪声细，用来给岛内增加起伏；权重1.0为基准强度。
         context.register(ISLAND_RELIEF, new NormalNoise.NoiseParameters(-5, 1.0));
     }
 
@@ -86,12 +96,15 @@ public final class PolarWorldgen {
         DensityFunction continent = DensityFunctions.cache2d(DensityFunctions.noise(noises.getOrThrow(LAND_DISTRIBUTION), 1.0, 0.0));
         DensityFunction relief = DensityFunctions.cache2d(DensityFunctions.noise(noises.getOrThrow(ISLAND_RELIEF), 1.0, 0.0));
         DensityFunction zero = DensityFunctions.zero();
-        // Positive density below Y=-53.5 gives bedrock at -64 and ten gravel blocks at -63..-54.
+        // 密度>0生成固体，<0为空气或海水。-53.5让海床顶格位于-54；-63..-54恰为10格沙砾。
         DensityFunction oceanFloor = below(-53.5);
+        // 冰盖固定在Y=43..62，共20格；上界62.5抬高会加厚上部，下界42.5降低会加厚下部。
         DensityFunction iceSheet = DensityFunctions.min(below(62.5),
                 DensityFunctions.yClampedGradient(MIN_Y, 320, MIN_Y - 42.5, 320 - 42.5));
+        // 32控制离岸向内的升高速度，调高岸坡更陡；clamp的10限制基础抬升，调高岛内更高。
         DensityFunction inland = DensityFunctions.mul(DensityFunctions.constant(32),
                 DensityFunctions.add(continent, DensityFunctions.constant(-ISLAND_THRESHOLD))).clamp(0, 10);
+        // 岸线基准63.5接近海面；0.2是岛内随机起伏比例，调高更崎岖，降低更平坦。
         DensityFunction island = DensityFunctions.add(below(63.5), DensityFunctions.mul(inland,
                 DensityFunctions.add(DensityFunctions.constant(1), DensityFunctions.mul(DensityFunctions.constant(0.2), relief))));
         DensityFunction terrain = DensityFunctions.rangeChoice(continent, ISLAND_THRESHOLD, 1000000,
@@ -100,6 +113,7 @@ public final class PolarWorldgen {
         NoiseRouter router = new NoiseRouter(zero, zero, zero, zero, zero, zero, continent, zero, zero, zero,
                 terrain, terrain, zero, zero, zero);
 
+        // 岛屿表面3格冻结土壤，以下永久冻土；stoneDepthCheck的3调高会增厚可挖土层。
         SurfaceRules.RuleSource islandSurface = SurfaceRules.sequence(
                 SurfaceRules.ifTrue(SurfaceRules.stoneDepthCheck(3, false, CaveSurface.FLOOR),
                         SurfaceRules.state(ModBlocks.FROZEN_SOIL.get().defaultBlockState())),
@@ -127,6 +141,8 @@ public final class PolarWorldgen {
     }
 
     public static void bootstrapDimensionTypes(BootstapContext<DimensionType> context) {
+        // 固定视觉时间18000为午夜，不冻结gameTime，因此暴雪计时与燃料仍正常推进。
+        // 下列布尔项沿用当前维度天空、天花板、床等设置，不能当作生成概率调整。
         context.register(DIMENSION_TYPE, new DimensionType(OptionalLong.of(18000), true, false, false, true,
                 1.0, true, false, MIN_Y, HEIGHT, HEIGHT, BlockTags.INFINIBURN_OVERWORLD,
                 BuiltinDimensionTypes.OVERWORLD_EFFECTS, 0.0F,

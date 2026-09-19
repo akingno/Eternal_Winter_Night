@@ -17,8 +17,10 @@ import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
+/** 保留原版四槽烹饪与营火外观，额外要求有燃料、未浸水且用打火石点燃。 */
 public class PolarCampfireBlock extends CampfireBlock {
     public PolarCampfireBlock(Properties properties) {
+        // true保留信号烟行为，1是踩在燃烧营火上的伤害，不是燃烧时长。
         super(true, 1, properties);
         registerDefaultState(defaultBlockState().setValue(LIT, false));
     }
@@ -37,6 +39,7 @@ public class PolarCampfireBlock extends CampfireBlock {
     }
 
     @Override
+    // 真实添料/点火/扣物品只在服务端，未被处理的交互最后交给原版放食物逻辑。
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!(level.getBlockEntity(pos) instanceof PolarCampfireBlockEntity fire)) return InteractionResult.PASS;
         var held = player.getItemInHand(hand);
@@ -62,6 +65,7 @@ public class PolarCampfireBlock extends CampfireBlock {
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
+        // 禁止火焰弹绕过燃料检查；余料显示(ticks+19)/20向上取整，点火扣1耐久。
         if (held.is(Items.FIRE_CHARGE)) return InteractionResult.sidedSuccess(level.isClientSide);
         if (held.isEmpty()) {
             if (!level.isClientSide) player.displayClientMessage(Component.translatable("message.winternightak.campfire_fuel", (fire.getFuelTicks() + 19) / 20), true);

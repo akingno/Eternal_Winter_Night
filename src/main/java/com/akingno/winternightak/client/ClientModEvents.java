@@ -9,9 +9,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = WinterNight.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+/** 只在客户端注册粒子工厂和物品外观条件，避免专用服务器加载渲染类。 */
 public class ClientModEvents {
 
     @SubscribeEvent
+    // spent属性只决定燃尽火把的物品外观，不控制实际燃料或服务器点火行为。
     public static void onClientSetup(net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent event) {
         event.enqueueWork(() -> net.minecraft.client.renderer.item.ItemProperties.register(
                 com.akingno.winternightak.block.ModBlocks.POLAR_TORCH.get().asItem(),

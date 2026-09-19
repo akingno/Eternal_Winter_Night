@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-/** Replaces only configured vanilla drops and rolls data-driven hunting resources. */
+/** 先删JSON列出的原版掉落，再抽取追加掉落表；没有列出的兔脚、墨囊等不会被误删。 */
 public class HuntingLootModifier extends LootModifier {
     public static final Codec<HuntingLootModifier> CODEC = RecordCodecBuilder.create(instance ->
             codecStart(instance).and(instance.group(
@@ -36,7 +36,7 @@ public class HuntingLootModifier extends LootModifier {
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
         generatedLoot.removeIf(stack -> removeItems.contains(stack.getItem()));
-        // Roll the supplemental table without re-entering global modifiers with the same context.
+        // 使用Raw入口抽追加表，避免同一个上下文再次触发全局修饰器造成递归。
         context.getLevel().getServer().getLootData().getLootTable(table)
                 .getRandomItemsRaw(context, generatedLoot::add);
         return generatedLoot;
