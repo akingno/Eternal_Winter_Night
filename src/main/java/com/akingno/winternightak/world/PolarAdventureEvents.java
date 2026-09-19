@@ -9,18 +9,40 @@ import com.momosoftworks.coldsweat.api.util.Temperature;
 import com.momosoftworks.coldsweat.api.util.placement.Matcher;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameRules;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = WinterNight.MOD_ID)
 /** 服务端入口：每秒维护暴雪、供暖与营地，登录/重生时同步状态，并注册管理员命令。 */
 public final class PolarAdventureEvents {
+    // 存在Forge约定的玩家持久区中，死亡重建Player实体时仍会保留，避免反复赠送打火石。
+    private static final String STARTER_FLINT_KEY = "WinterNightStarterFlintGiven";
+
+    @SubscribeEvent public static void serverStarted(ServerStartedEvent event) {
+        // keepInventory是原版服务器级游戏规则；极地预设只含一个主世界，因此启用后死亡不掉落物品和经验。
+        // 仅当服务器实际加载了极地维度时修改，避免把本Mod装进普通世界后无条件改变规则。
+        boolean hasPolarLevel = false;
+        for (var level : event.getServer().getAllLevels()) {
+            if (level.dimensionTypeRegistration().is(PolarWorldgen.DIMENSION_TYPE)) {
+                hasPolarLevel = true;
+                break;
+            }
+        }
+        if (hasPolarLevel && !event.getServer().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY))
+            event.getServer().getGameRules().getRule(GameRules.RULE_KEEPINVENTORY).set(true, event.getServer());
+    }
+
     @SubscribeEvent public static void tick(TickEvent.ServerTickEvent event) {
         if (event.phase != TickEvent.Phase.END) return;
         for (var level : event.getServer().getAllLevels()) {
@@ -43,6 +65,17 @@ public final class PolarAdventureEvents {
         boolean active = level.dimensionTypeRegistration().is(PolarWorldgen.DIMENSION_TYPE) && BlizzardData.get(level).active(level);
         PolarNetwork.sync(player, active);
         if (!active) Temperature.removeModifiers(player, Temperature.Trait.WORLD, BlizzardTemperature.class);
+        if (level.dimensionTypeRegistration().is(PolarWorldgen.DIMENSION_TYPE)) giveStarterFlint(player);
+    }
+
+    /** 第一次进入极地世界时赠送一把满耐久打火石；背包满时掉在玩家脚下，标记仍只写一次。 */
+    private static void giveStarterFlint(ServerPlayer player) {
+        CompoundTag persistent = player.getPersistentData().getCompound(net.minecraft.world.entity.player.Player.PERSISTED_NBT_TAG);
+        if (persistent.getBoolean(STARTER_FLINT_KEY)) return;
+        ItemStack flint = new ItemStack(Items.FLINT_AND_STEEL);
+        if (!player.getInventory().add(flint)) player.drop(flint, false);
+        persistent.putBoolean(STARTER_FLINT_KEY, true);
+        player.getPersistentData().put(net.minecraft.world.entity.player.Player.PERSISTED_NBT_TAG, persistent);
     }
     @SubscribeEvent public static void login(PlayerEvent.PlayerLoggedInEvent event) { if (event.getEntity() instanceof ServerPlayer player) sync(player); }
     @SubscribeEvent public static void dimension(PlayerEvent.PlayerChangedDimensionEvent event) { if (event.getEntity() instanceof ServerPlayer player) sync(player); }
