@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "ingredient": { "item": "winternightak:raw_game_meat" },
+  "result": "minecraft:cooked_beef",
+  "experience": 0.35,
+  "cookingtime": 600
+}

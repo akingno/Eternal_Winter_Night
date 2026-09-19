@@ -1,0 +1,1 @@
+{"parent":"minecraft:item/generated","textures":{"layer0":"minecraft:block/torch"},"overrides":[{"predicate":{"winternightak:spent":1},"model":"winternightak:item/polar_torch_spent"}]}

@@ -1,8 +1,8 @@
-// 1.20.1	2026-09-18T17:48:47.2561881	Registries
+// 1.20.1	2026-09-18T21:30:42.0222419	Registries
 8685667416b21f3edbbcdedc457ab69bbca48229 data/winternightak/dimension_type/polar.json
-50c4f209a36369e979496015ac0eb35fd61d1be8 data/winternightak/worldgen/biome/ice_plain.json
-3e2ea9a98c86f37956d23eb5e7399a0294ff1703 data/winternightak/worldgen/biome/polar_ice_cap.json
-9bdb994e708efab7873327e47c4f401cd8a9f218 data/winternightak/worldgen/biome/polar_ocean.json
+03dae8ae5096c223cc25db6d9b11a4e0e9722c05 data/winternightak/worldgen/biome/ice_plain.json
+aac68c865956a08de44d07f3de6b667f9d1b19a1 data/winternightak/worldgen/biome/polar_ice_cap.json
+12bc056f55ce2fd5a6fb8f6aa2f837e41e8e80b3 data/winternightak/worldgen/biome/polar_ocean.json
 041dc7da4979ed20498cd8b0a1fb7432bce03f20 data/winternightak/worldgen/configured_feature/polar_snow.json
 e74cc5fddf76988ea088a3379827c56583899b7f data/winternightak/worldgen/configured_feature/sakura.json
 6d3163b5d765c759b3dbf6f993342db056dfaea9 data/winternightak/worldgen/noise/island_relief.json

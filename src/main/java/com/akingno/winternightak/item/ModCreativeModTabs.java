@@ -24,6 +24,10 @@ public class ModCreativeModTabs {
                         output.accept(ModBlocks.FROZEN_SOIL.get());
                         output.accept(ModBlocks.HARD_ICE.get());
                         output.accept(ModBlocks.ICE_SLAB.get());
+                        output.accept(ModBlocks.PRIMITIVE_LAMP.get());
+                        output.accept(ModBlocks.CAMPFIRE.get());
+                        output.accept(ModBlocks.POLAR_TORCH.get());
+                        output.accept(ModItems.FUR_WRAP.get());
                         output.accept(com.momosoftworks.coldsweat.core.init.ItemInit.GOAT_FUR.get());
                         output.accept(com.momosoftworks.coldsweat.core.init.ItemInit.GOAT_FUR_HELMET.get());
                         output.accept(com.momosoftworks.coldsweat.core.init.ItemInit.GOAT_FUR_CHESTPLATE.get());

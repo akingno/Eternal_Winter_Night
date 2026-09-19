@@ -24,6 +24,19 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, WinterNight.MOD_ID);
 
+    public static final RegistryObject<Block> POLAR_TORCH = registerBlock("polar_torch",
+            () -> new PolarTorchBlock(BlockBehaviour.Properties.copy(Blocks.TORCH)
+                    .lightLevel(state -> state.getValue(PolarTorchBlock.LIT) ? 14 : 0)));
+
+    public static final RegistryObject<Block> CAMPFIRE = registerBlock("campfire",
+            () -> new PolarCampfireBlock(BlockBehaviour.Properties.copy(Blocks.CAMPFIRE)
+                    .lightLevel(state -> state.getValue(CampfireBlock.LIT) ? 15 : 0)));
+
+    public static final RegistryObject<Block> PRIMITIVE_LAMP = registerBlock("primitive_lamp",
+            () -> new PrimitiveLampBlock(BlockBehaviour.Properties.copy(Blocks.CANDLE)
+                    .strength(0.2F).lightLevel(state -> state.getValue(PrimitiveLampBlock.LIT)
+                            ? com.akingno.winternightak.block.entity.LampSettings.LIGHT_LEVEL : 0)));
+
     public static final RegistryObject<Block> PERMAFROST = registerBlock("permafrost",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.BEDROCK)
                     .mapColor(MapColor.DIRT).sound(SoundType.GRAVEL).noLootTable()));

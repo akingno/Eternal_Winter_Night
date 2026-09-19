@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_fur": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [{ "items": ["cold_sweat:goat_fur"] }] }
+    },
+    "has_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": { "recipe": "winternightak:fur_wrap" }
+    }
+  },
+  "requirements": [["has_fur", "has_recipe"]],
+  "rewards": { "recipes": ["winternightak:fur_wrap"] }
+}

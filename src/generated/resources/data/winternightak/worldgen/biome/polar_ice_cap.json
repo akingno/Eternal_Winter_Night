@@ -1,6 +1,6 @@
 {
   "carvers": {},
-  "creature_spawn_probability": 0.15,
+  "creature_spawn_probability": 0.05,
   "downfall": 0.5,
   "effects": {
     "fog_color": 10734048,
@@ -31,15 +31,15 @@
     "creature": [
       {
         "type": "minecraft:rabbit",
-        "maxCount": 4,
-        "minCount": 2,
-        "weight": 18
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 12
       },
       {
         "type": "minecraft:fox",
-        "maxCount": 2,
+        "maxCount": 1,
         "minCount": 1,
-        "weight": 5
+        "weight": 1
       }
     ],
     "misc": [],

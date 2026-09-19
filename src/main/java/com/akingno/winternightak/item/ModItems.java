@@ -18,6 +18,8 @@ public class ModItems {
 
     public static final RegistryObject<Item> ANIMAL_FAT = ITEMS.register("animal_fat",
             () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> FUR_WRAP = ITEMS.register("fur_wrap",
+            com.akingno.winternightak.item.custom.FurWrapItem::new);
     public static final RegistryObject<Item> RAW_GAME_MEAT = ITEMS.register("raw_game_meat",
             () -> new Item(new Item.Properties().food(Foods.BEEF)));
     public static final RegistryObject<Item> ICE_BRICK = ITEMS.register("ice_brick",

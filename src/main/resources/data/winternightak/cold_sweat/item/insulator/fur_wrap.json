@@ -1,0 +1,5 @@
+{
+  "type": "armor",
+  "item": { "items": ["winternightak:fur_wrap"] },
+  "insulation": { "cold": 7, "heat": 0 }
+}

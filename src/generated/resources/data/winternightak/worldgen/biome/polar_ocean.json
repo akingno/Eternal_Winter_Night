@@ -1,6 +1,6 @@
 {
   "carvers": {},
-  "creature_spawn_probability": 0.15,
+  "creature_spawn_probability": 0.05,
   "downfall": 0.5,
   "effects": {
     "fog_color": 6589610,
@@ -41,5 +41,5 @@
       }
     ]
   },
-  "temperature": 0.5
+  "temperature": 0.16
 }

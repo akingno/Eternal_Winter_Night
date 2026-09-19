@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": ["F", "F"],
+  "key": { "F": { "item": "winternightak:animal_fat" } },
+  "result": { "item": "winternightak:primitive_lamp" }
+}

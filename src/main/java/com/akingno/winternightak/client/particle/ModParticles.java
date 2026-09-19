@@ -14,6 +14,8 @@ public class ModParticles {
 
     public static final RegistryObject<SimpleParticleType> SAKURA_LEAF = PARTICLE_TYPES.register("sakura_leaf",
                     () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> BLIZZARD_SNOW = PARTICLE_TYPES.register("blizzard_snow",
+                    () -> new SimpleParticleType(false));
 
     public static void register(IEventBus eventBus) {
         PARTICLE_TYPES.register(eventBus);

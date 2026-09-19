@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [" S ", "SCS", "LLL"],
+  "key": {
+    "S": { "item": "minecraft:stick" },
+    "C": { "tag": "minecraft:coals" },
+    "L": { "tag": "minecraft:logs" }
+  },
+  "result": { "item": "winternightak:campfire" }
+}

@@ -1,0 +1,6 @@
+{
+  "type":"minecraft:block",
+  "pools":[{"rolls":1,"entries":[{"type":"minecraft:item","name":"winternightak:polar_torch","functions":[
+    {"function":"minecraft:copy_nbt","source":"block_entity","ops":[{"source":"FuelTicks","target":"BlockEntityTag.FuelTicks","op":"replace"}]}
+  ]}],"conditions":[{"condition":"minecraft:survives_explosion"}]}]
+}

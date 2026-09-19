@@ -1,0 +1,29 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "fat": "minecraft:block/white_terracotta",
+    "wick": "minecraft:block/black_wool",
+    "particle": "minecraft:block/white_terracotta"
+  },
+  "elements": [
+    {
+      "from": [5, 0, 5], "to": [11, 4, 11],
+      "faces": {
+        "down": { "texture": "#fat" }, "up": { "texture": "#fat" },
+        "north": { "texture": "#fat" }, "south": { "texture": "#fat" },
+        "west": { "texture": "#fat" }, "east": { "texture": "#fat" }
+      }
+    },
+    {
+      "from": [7.5, 4, 7.5], "to": [8.5, 6, 8.5],
+      "faces": {
+        "down": { "texture": "#wick" }, "up": { "texture": "#wick" },
+        "north": { "texture": "#wick" }, "south": { "texture": "#wick" },
+        "west": { "texture": "#wick" }, "east": { "texture": "#wick" }
+      }
+    }
+  ],
+  "display": {
+    "gui": { "rotation": [30, 225, 0], "translation": [0, 4, 0], "scale": [1.1, 1.1, 1.1] }
+  }
+}

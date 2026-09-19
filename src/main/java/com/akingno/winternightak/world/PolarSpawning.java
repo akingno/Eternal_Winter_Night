@@ -11,6 +11,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.animal.Fox;
+import net.minecraft.world.entity.animal.Rabbit;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
@@ -24,11 +25,13 @@ import java.util.Set;
 @Mod.EventBusSubscriber(modid = WinterNight.MOD_ID)
 public final class PolarSpawning {
     private static final Set<EntityType<?>> ALLOWED = Set.of(EntityType.RABBIT, EntityType.FOX,
-            EntityType.WOLF, EntityType.SQUID, EntityType.SALMON, EntityType.COD);
+            EntityType.WOLF, EntityType.SQUID, EntityType.SALMON, EntityType.COD, EntityType.VILLAGER);
 
     @SubscribeEvent
     public static void onJoin(EntityJoinLevelEvent event) {
         if (event.getLevel().isClientSide || !event.getLevel().dimensionTypeRegistration().is(PolarWorldgen.DIMENSION_TYPE)) return;
+        if (event.getEntity() instanceof Rabbit rabbit) rabbit.setVariant(Rabbit.Variant.WHITE);
+        if (event.getEntity() instanceof Fox fox) fox.setVariant(Fox.Type.SNOW);
         if (!event.loadedFromDisk() && event.getEntity() instanceof Fox fox) {
             fox.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
             if (fox.getRandom().nextFloat() < 0.10F) {

@@ -52,16 +52,16 @@ public final class PolarWorldgen {
         context.register(ICE_CAP, biome(context, -0.5F, true, 0xA3C9E0));
         context.register(ICE_PLAIN, biome(context, -0.4F, true, 0xB9D8E8));
         // Vanilla freezing is controlled separately from Cold Sweat's environmental temperatures.
-        context.register(OCEAN, biome(context, 0.1F, false, 0x648CAA));
+        context.register(OCEAN, biome(context, 0.16F, false, 0x648CAA));
     }
 
     private static Biome biome(BootstapContext<Biome> context, float temperature, boolean precipitation, int fog) {
-        var spawns = new MobSpawnSettings.Builder().creatureGenerationProbability(0.15F);
+        var spawns = new MobSpawnSettings.Builder().creatureGenerationProbability(0.05F);
         var generation = new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE),
                 context.lookup(Registries.CONFIGURED_CARVER));
         if (precipitation) {
-            spawns.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.RABBIT, 8, 1, 3));
-            spawns.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.FOX, 2, 1, 1));
+            spawns.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.RABBIT, 12, 1, 3));
+            spawns.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.FOX, 1, 1, 1));
             if (temperature > -0.5F)
                 spawns.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.WOLF, 1, 1, 2));
             generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, PolarSnowFeature.PLACED);

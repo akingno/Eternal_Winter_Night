@@ -40,6 +40,8 @@ public class WinterNight
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        com.akingno.winternightak.block.entity.ModBlockEntities.TYPES.register(modEventBus);
+        com.akingno.winternightak.network.PolarNetwork.register();
         ModParticles.register(modEventBus);
         ModLootModifiers.SERIALIZERS.register(modEventBus);
         com.akingno.winternightak.world.gen.PolarSnowFeature.FEATURES.register(modEventBus);
@@ -72,8 +74,15 @@ public class WinterNight
     public static class ClientModEvents
     {
         @SubscribeEvent
+        public static void registerRenderers(net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers event) {
+            event.registerBlockEntityRenderer(com.akingno.winternightak.block.entity.ModBlockEntities.CAMPFIRE.get(),
+                    net.minecraft.client.renderer.blockentity.CampfireRenderer::new);
+        }
+        @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.CAMPFIRE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.POLAR_TORCH.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.GLASS_DOOR.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.HUSUMA.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.SAKURA_LEAVES.get(), RenderType.cutout());

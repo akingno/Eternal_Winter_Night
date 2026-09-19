@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_fat": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [{ "items": ["winternightak:animal_fat"] }] }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": { "recipe": "winternightak:primitive_lamp" }
+    }
+  },
+  "requirements": [["has_fat", "has_the_recipe"]],
+  "rewards": { "recipes": ["winternightak:primitive_lamp"] }
+}

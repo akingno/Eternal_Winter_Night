@@ -7,8 +7,9 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 @Mixin(Rabbit.class)
 public abstract class RabbitMovementMixin {
-    @ModifyConstant(method = "registerGoals", constant = @Constant(doubleValue = 2.2D, ordinal = 0))
+    // Apply to both panic and avoidance goals, which otherwise restore vanilla flee speed.
+    @ModifyConstant(method = "registerGoals", constant = @Constant(doubleValue = 2.2D))
     private double winterNight$moderatePanicSpeed(double vanillaSpeed) {
-        return 1.3D;
+        return 0.5D;
     }
 }

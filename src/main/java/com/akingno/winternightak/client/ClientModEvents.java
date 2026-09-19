@@ -12,7 +12,19 @@ import net.minecraftforge.fml.common.Mod;
 public class ClientModEvents {
 
     @SubscribeEvent
+    public static void onClientSetup(net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent event) {
+        event.enqueueWork(() -> net.minecraft.client.renderer.item.ItemProperties.register(
+                com.akingno.winternightak.block.ModBlocks.POLAR_TORCH.get().asItem(),
+                new net.minecraft.resources.ResourceLocation(WinterNight.MOD_ID, "spent"),
+                (stack, level, entity, seed) -> {
+                    var tag = stack.getTagElement("BlockEntityTag");
+                    return tag != null && tag.contains("FuelTicks") && tag.getInt("FuelTicks") <= 0 ? 1 : 0;
+                }));
+    }
+
+    @SubscribeEvent
     public static void onRegisterParticles(RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(ModParticles.BLIZZARD_SNOW.get(), com.akingno.winternightak.client.particle.BlizzardSnowParticle.Provider::new);
         // 1.20.1 不再使用 Minecraft.getInstance().particles
         // 而是直接使用 event.registerSpriteSet 或者 event.registerSpecial
 

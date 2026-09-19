@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": ["FF", "FF"],
+  "key": { "F": { "item": "cold_sweat:goat_fur" } },
+  "result": { "item": "winternightak:fur_wrap" }
+}

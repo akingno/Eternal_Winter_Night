@@ -1,0 +1,9 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:environment/snow",
+      "sprite": "winternightak:weather_snow_sheet"
+    }
+  ]
+}
