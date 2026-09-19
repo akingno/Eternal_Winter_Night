@@ -29,6 +29,8 @@ public class ModCreativeModTabs {
                         output.accept(ModBlocks.CAMPFIRE.get());
                         output.accept(ModBlocks.POLAR_TORCH.get());
                         output.accept(ModItems.FUR_WRAP.get());
+                        output.accept(ModItems.VILLAGE_COMPASS.get());
+                        output.accept(ModItems.STONE_JAVELIN.get());
                         output.accept(com.momosoftworks.coldsweat.core.init.ItemInit.GOAT_FUR.get());
                         output.accept(com.momosoftworks.coldsweat.core.init.ItemInit.GOAT_FUR_HELMET.get());
                         output.accept(com.momosoftworks.coldsweat.core.init.ItemInit.GOAT_FUR_CHESTPLATE.get());

@@ -4,6 +4,6 @@
   "package": "com.akingno.winternightak.mixin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "winternightak.refmap.json",
-  "mixins": ["SnowBlockGravityMixin", "RabbitMovementMixin", "PolarAnimalGroundMixin", "RabbitNavigationMixin", "CampfireIgnitionMixin"],
+  "mixins": ["SnowBlockGravityMixin", "RabbitMovementMixin", "PolarAnimalGroundMixin", "RabbitNavigationMixin", "CampfireIgnitionMixin", "VillageCompassPriceMixin"],
   "injectors": { "defaultRequire": 1 }
 }

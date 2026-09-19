@@ -35,12 +35,12 @@ public final class PolarVillages {
 
     public static void pools(BootstapContext<StructureTemplatePool> context) {
         var empty = context.lookup(Registries.TEMPLATE_POOL).getOrThrow(ResourceKey.create(Registries.TEMPLATE_POOL, new ResourceLocation("minecraft:empty")));
-        // 只取正常雪村的三个广场，完全不加入僵尸版本；后续道路房屋继续引用原版池。
+        // 只取正常雪村的三个广场，完全不加入僵尸版本；连接转向独立极地池，模板仍复用原版。
         // 权重2:1:3沿用原版正常广场比例，调高某项只增加该外观的出现比例，不增加村庄数量。
         context.register(START_POOL, new StructureTemplatePool(empty, List.of(
-                Pair.of(StructurePoolElement.legacy("minecraft:village/snowy/town_centers/snowy_meeting_point_1"), 2),
-                Pair.of(StructurePoolElement.legacy("minecraft:village/snowy/town_centers/snowy_meeting_point_2"), 1),
-                Pair.of(StructurePoolElement.legacy("minecraft:village/snowy/town_centers/snowy_meeting_point_3"), 3)
+                Pair.of(PolarVillageElement.template("minecraft:village/snowy/town_centers/snowy_meeting_point_1"), 2),
+                Pair.of(PolarVillageElement.template("minecraft:village/snowy/town_centers/snowy_meeting_point_2"), 1),
+                Pair.of(PolarVillageElement.template("minecraft:village/snowy/town_centers/snowy_meeting_point_3"), 3)
         ), StructureTemplatePool.Projection.RIGID));
     }
 
@@ -55,7 +55,7 @@ public final class PolarVillages {
     public static void sets(BootstapContext<StructureSet> context) {
         var village = context.lookup(Registries.STRUCTURE).getOrThrow(VILLAGE);
         // 唯一结构权重1表示只选本雪村，并非生成概率；概率由FREQUENCY单独控制。
-        // ZERO不偏移定位坐标；DEFAULT按种子稳定筛选30%候选；empty不额外排斥其他结构。
+        // ZERO不偏移定位坐标；DEFAULT按种子按FREQUENCY筛选候选；empty不额外排斥其他结构。
         context.register(SET, new StructureSet(List.of(StructureSet.entry(village, 1)),
                 new RandomSpreadStructurePlacement(Vec3i.ZERO, StructurePlacement.FrequencyReductionMethod.DEFAULT,
                         PolarVillageSettings.FREQUENCY, PolarVillageSettings.SALT, Optional.empty(),

@@ -25,8 +25,24 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 /** 出生点四周的小营地：先定远处区块，再按已生成地表放置，海上允许硬冰平台。 */
 public class HunterCampData extends SavedData {
-    // 版本2取消海洋/坡度筛选；旧档仅重置尚未生成营地的失败次数，绝不重建已存在的营地。
-    private static final int PLACEMENT_VERSION = 2;
+    // 版本3显式保留目标区块；旧档仅重置尚未生成营地的失败次数，绝不重建已存在的营地。
+    private static final int PLACEMENT_VERSION = 3;
+    // 无自动过期票据：只维持一个营地目标区块到建造完成；半径0为FULL，不额外要求实体tick。
+    private static final net.minecraft.server.level.TicketType<net.minecraft.world.level.ChunkPos> CAMP_TICKET =
+            net.minecraft.server.level.TicketType.create("winternight_camp",
+                    java.util.Comparator.comparingLong(net.minecraft.world.level.ChunkPos::toLong));
+    private net.minecraft.world.level.ChunkPos heldChunk;
+
+    private void releaseChunk(ServerLevel level) {
+        if (heldChunk != null) {
+            level.getChunkSource().removeRegionTicket(CAMP_TICKET, heldChunk, 0, heldChunk);
+            heldChunk = null;
+        }
+    }
+    private void failed(int slot, String reason) {
+        com.mojang.logging.LogUtils.getLogger().warn("Hunter camp direction {} attempt {} failed: {}",
+                slot, attempts[slot], reason);
+    }
     public static final String HUNTER_TAG = "WinterNightHunter";
     private BlockPos origin;
     private final BlockPos[] camps = new BlockPos[4];
@@ -71,6 +87,8 @@ public class HunterCampData extends SavedData {
             if (!pendingTerrain.isDone()) {
                 // 地形准备超过30秒就跳过该方向，不继续追加同方向的加载请求。
                 if (System.nanoTime() - pendingSince > 30_000_000_000L) {
+                    failed(pendingSlot, "terrain preparation exceeded 30 seconds");
+                    releaseChunk(level);
                     attempts[pendingSlot] = PolarAdventureSettings.CAMP_ATTEMPTS;
                     pendingTerrain = null;
                     setDirty();
@@ -79,7 +97,10 @@ public class HunterCampData extends SavedData {
             }
             var completed = pendingTerrain;
             pendingTerrain = null;
-            if (!completed.isCompletedExceptionally()) finish(level, pendingBase, pendingSlot);
+            try {
+                if (!completed.isCompletedExceptionally()) finish(level, pendingBase, pendingSlot);
+                else failed(pendingSlot, "chunk future completed exceptionally");
+            } finally { releaseChunk(level); }
             return;
         }
         if (origin == null) { origin = level.getSharedSpawnPos().immutable(); setDirty(); }
@@ -107,6 +128,9 @@ public class HunterCampData extends SavedData {
         // 营地对齐目标区块中心，9×9占地完全位于一个区块；相对初始距离最多偏移约11格。
         // 原版奖励箱也在选定区块内找地表，但这里只放一个固定小平台，不随机遍历整片区域。
         var targetChunk = new net.minecraft.world.level.ChunkPos(new BlockPos(x, 0, z));
+        // 临时UNKNOWN加载票据可能先过期；显式持有区块，防止完成Future后建造前区块又不可用。
+        heldChunk = targetChunk;
+        level.getChunkSource().addRegionTicket(CAMP_TICKET, heldChunk, 0, heldChunk);
         x = targetChunk.getMiddleBlockX();
         z = targetChunk.getMiddleBlockZ();
         // 此处Y只是占位值；区块完成后直接读取现成高度图，不计算候选噪声或筛选海洋。
@@ -124,7 +148,10 @@ public class HunterCampData extends SavedData {
                         .thenCompose(future -> future));
             }
         }
-        if (futures.isEmpty()) { finish(level, base, slot); return; }
+        if (futures.isEmpty()) {
+            try { finish(level, base, slot); } finally { releaseChunk(level); }
+            return;
+        }
         pendingBase = base;
         pendingSlot = slot;
         pendingSince = System.nanoTime();
@@ -135,7 +162,10 @@ public class HunterCampData extends SavedData {
         // 准备失败或已卸载时放弃本次，禁止下面的方块读取再触发同步加载。
         for (int cx = (base.getX() - 4) >> 4; cx <= (base.getX() + 4) >> 4; cx++)
             for (int cz = (base.getZ() - 4) >> 4; cz <= (base.getZ() + 4) >> 4; cz++)
-                if (level.getChunkSource().getChunkNow(cx, cz) == null) return;
+                if (level.getChunkSource().getChunkNow(cx, cz) == null) {
+                    failed(slot, "target chunk unavailable after preparation");
+                    return;
+                }
         // WORLD_SURFACE包含水面，因此海上营地落在海平面，不会沉到海床。
         // 取小屋占地最高地表，让平台跨过小起伏；读取的是已加载区块高度图，不生成或采样远处地形。
         int topY = level.getMinBuildHeight();
@@ -151,7 +181,10 @@ public class HunterCampData extends SavedData {
         if (topY < level.getMinBuildHeight() + 2 || topY + 4 >= level.getMaxBuildHeight()) return;
         // 唯一的场地保护：不覆盖玩家建筑或其他结构，失败才消耗下一次有限重试。
         for (BlockPos pos : BlockPos.betweenClosed(base.offset(-4, -2, -4), base.offset(4, 4, 4))) {
-            if (!replaceable(level.getBlockState(pos))) return;
+            if (!replaceable(level.getBlockState(pos))) {
+                failed(slot, "protected block " + level.getBlockState(pos) + " at " + pos.toShortString());
+                return;
+            }
         }
         build(level, base);
         camps[slot] = base.above();

@@ -1,4 +1,4 @@
-// 1.20.1	2026-09-19T03:54:12.2056683	Registries
+// 1.20.1	2026-09-19T15:18:05.9802933	Registries
 8685667416b21f3edbbcdedc457ab69bbca48229 data/winternightak/dimension_type/polar.json
 ddf222c478815268f965b8ce70b2583648526848 data/winternightak/worldgen/biome/ice_plain.json
 aac68c865956a08de44d07f3de6b667f9d1b19a1 data/winternightak/worldgen/biome/polar_ice_cap.json
@@ -12,6 +12,6 @@ e74cc5fddf76988ea088a3379827c56583899b7f data/winternightak/worldgen/configured_
 70edfca68bf035990f0b7ded2a6acf9c911162d8 data/winternightak/worldgen/placed_feature/dead_spruce.json
 6a9e4f4f8a9cbb20a5a74d0d29d05071ec77f527 data/winternightak/worldgen/placed_feature/polar_snow.json
 100c78f99c089162fcb18f29bf9cdf26c9614944 data/winternightak/worldgen/structure/snowy_village.json
-dbbff19d0fc4c64175c610b6f18af2399b07e09d data/winternightak/worldgen/structure_set/snowy_villages.json
-76b7ee2e0e03e85aae2b0f7c2dd5f4ccf5a1d889 data/winternightak/worldgen/template_pool/village/snowy/town_centers.json
+41b7b95f7713d45327f3a1325df84e424e5f1817 data/winternightak/worldgen/structure_set/snowy_villages.json
+7fc29beb58cb64d124b75216064b11ddeff7d4dd data/winternightak/worldgen/template_pool/village/snowy/town_centers.json
 de61e69e2157accb24106584f6b6f6cf2e28e388 data/winternightak/worldgen/world_preset/winter_night.json

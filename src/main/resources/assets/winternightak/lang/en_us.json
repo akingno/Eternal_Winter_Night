@@ -1,4 +1,6 @@
 {
+  "item.winternightak.stone_javelin": "Stone Javelin",
+  "item.winternightak.village_compass": "Village Compass",
   "block.winternightak.polar_torch": "Polar Torch",
   "message.winternightak.torch_fuel": "Torch fuel remaining: %s seconds",
   "message.winternightak.torch_spent": "This torch has burned out. Craft a new torch.",

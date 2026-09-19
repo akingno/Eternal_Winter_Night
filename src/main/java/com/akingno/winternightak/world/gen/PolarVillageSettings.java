@@ -3,7 +3,7 @@ package com.akingno.winternightak.world.gen;
 /** 雪村参数集中在此。改动后需要重新运行runData更新生成间距等数据，旧区块不会补生成。 */
 public final class PolarVillageSettings {
     // 候选位置通过概率，不是每座岛的概率。调高村庄更多，调低更稀少；只要求起点群系为冰原。
-    public static final float FREQUENCY = 0.30F;
+    public static final float FREQUENCY = 0.20F;
     // 单位为区块，每区块16格：每16×16区块区域选一个候选位置。调小更密，调大更稀。
     public static final int SPACING = 16;
     // 候选区块之间的排布间隔参数，须小于SPACING；调高更均匀、相邻候选更难靠近。

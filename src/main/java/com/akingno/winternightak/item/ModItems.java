@@ -15,6 +15,10 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, WinterNight.MOD_ID);
+    public static final RegistryObject<Item> VILLAGE_COMPASS = ITEMS.register("village_compass",
+            com.akingno.winternightak.item.custom.VillageCompassItem::new);
+    public static final RegistryObject<Item> STONE_JAVELIN = ITEMS.register("stone_javelin",
+            com.akingno.winternightak.item.custom.StoneJavelinItem::new);
 
     // 第一、二阶段资源入口：油脂是燃料，兽肉复用生牛肉食物值，冰砖为物品而非可放方块。
     public static final RegistryObject<Item> ANIMAL_FAT = ITEMS.register("animal_fat",

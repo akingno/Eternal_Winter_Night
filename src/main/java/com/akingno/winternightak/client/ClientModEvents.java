@@ -15,6 +15,12 @@ public class ClientModEvents {
     @SubscribeEvent
     // spent属性只决定燃尽火把的物品外观，不控制实际燃料或服务器点火行为。
     public static void onClientSetup(net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent event) {
+        // 原版磁石指针算法；未绑定或跨维度时按原版方式旋转。
+        event.enqueueWork(() -> net.minecraft.client.renderer.item.ItemProperties.register(
+                com.akingno.winternightak.item.ModItems.VILLAGE_COMPASS.get(),
+                new net.minecraft.resources.ResourceLocation("angle"),
+                new net.minecraft.client.renderer.item.CompassItemPropertyFunction((level, stack, entity) ->
+                        stack.hasTag() ? net.minecraft.world.item.CompassItem.getLodestonePosition(stack.getTag()) : null)));
         event.enqueueWork(() -> net.minecraft.client.renderer.item.ItemProperties.register(
                 com.akingno.winternightak.block.ModBlocks.POLAR_TORCH.get().asItem(),
                 new net.minecraft.resources.ResourceLocation(WinterNight.MOD_ID, "spent"),
