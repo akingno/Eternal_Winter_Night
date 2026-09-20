@@ -23,6 +23,5 @@ run
 
 mod参考
 *.md
-*.html
 # Files from Forge MDK
 forge*changelog.txt

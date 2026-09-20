@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Winter Night｜项目功能与代码索引</title>
+<style>
+:root{--bg:#07111d;--side:#081624;--panel:#0e2031;--panel2:#132a3e;--line:#294960;--text:#e8f3f8;--muted:#9eb7c6;--ice:#bdeeff;--blue:#7dccf4;--green:#8edbb7;--amber:#f0ca79;--code:#06111b}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 85% 2%,#17394c 0,transparent 30rem),linear-gradient(#07111d,#091725);color:var(--text);font:15px/1.7 "Segoe UI","Microsoft YaHei",sans-serif}a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline;color:var(--ice)}code,.path{font-family:Consolas,"Cascadia Code",monospace;color:#cdefff;overflow-wrap:anywhere}code{padding:.1rem .35rem;border:1px solid #24455d;border-radius:5px;background:var(--code)}.layout{display:grid;grid-template-columns:280px minmax(0,1fr);min-height:100vh}aside{position:sticky;top:0;height:100vh;overflow:auto;padding:26px 20px;border-right:1px solid var(--line);background:rgba(5,15,25,.94)}main{width:min(1180px,100%);padding:48px 52px 80px}.brand{font-size:21px;font-weight:750;color:var(--ice)}.brand small{display:block;color:var(--muted);font-size:12px;font-weight:500}.search{width:100%;margin:20px 0 14px;padding:10px 12px;color:var(--text);background:#091826;border:1px solid var(--line);border-radius:8px}nav .group{margin:16px 9px 4px;color:#6f96ac;font-size:11px;font-weight:700;letter-spacing:.12em}nav a{display:block;padding:6px 9px;border-radius:6px;color:var(--muted)}nav a:hover{background:var(--panel2);color:var(--text);text-decoration:none}.hero,.feature,.card,table{border:1px solid var(--line);background:rgba(14,32,49,.9);box-shadow:0 10px 30px rgba(0,0,0,.16)}.hero{padding:30px;border-radius:17px}.feature{margin:14px 0;padding:19px 21px;border-radius:12px;scroll-margin-top:18px}.card{padding:17px;border-radius:11px}h1{margin:8px 0;color:var(--ice);font-size:42px;line-height:1.15}h2{margin:48px 0 15px;padding-bottom:8px;border-bottom:1px solid var(--line);color:var(--ice);font-size:25px}h3{margin:0 0 8px;color:#effaff;font-size:19px}p{margin:7px 0 12px}.muted{color:var(--muted)}.meta,.badges,.flow{display:flex;flex-wrap:wrap;gap:8px}.pill,.badge{padding:3px 9px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:11px}.p1{color:var(--green)}.p2{color:var(--blue)}.p3{color:var(--amber)}.feature-head{display:flex;justify-content:space-between;gap:12px}.files{margin-top:8px;padding:11px 13px;border-radius:7px;background:rgba(5,15,25,.68)}.files div+div{margin-top:6px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.flow{align-items:center;margin:15px 0}.flow span{padding:7px 10px;border:1px solid var(--line);border-radius:7px;background:var(--panel)}.flow i{color:var(--blue);font-style:normal}.note{margin:15px 0;padding:12px 14px;border-left:3px solid var(--blue);border-radius:6px;background:#10283a}.warn{border-color:var(--amber)}table{width:100%;border-collapse:collapse;margin:12px 0 20px}th,td{padding:9px 11px;border:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--ice);background:#10283b;font-size:12px}td{font-size:13px}ul{margin:7px 0;padding-left:21px}.hidden{display:none!important}.footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}@media(max-width:900px){.layout{display:block}aside{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}nav{columns:2}main{padding:28px 17px 60px}.grid{grid-template-columns:1fr}h1{font-size:34px}}@media print{aside{display:none}.layout{display:block}main{width:100%;padding:0}body,.hero,.feature,.card,table{color:#111;background:#fff;box-shadow:none}h1,h2,h3,a,code,.path{color:#16445e}}
+</style>
+</head>
+<body><div class="layout">
+<aside><div class="brand">Winter Night<small>功能与代码索引 · 2026-09-20</small></div>
+<input id="search" class="search" type="search" placeholder="搜索功能、文件或参数…" aria-label="搜索文档">
+<nav>
+<div class="group">总览</div><a href="#overview">项目状态</a><a href="#architecture">代码入口</a>
+<div class="group">Phase 1</div><a href="#world">世界与群系</a><a href="#terrain">地层与资源</a><a href="#ecology">生态与物品</a>
+<div class="group">Phase 2</div><a href="#heat">燃料与取暖</a><a href="#weather">暴雪与营地</a><a href="#village">村庄与交易</a><a href="#weapons">武器与弓箭</a>
+<div class="group">Phase 3</div><a href="#materials">铁板与红石</a><a href="#devices">工作台与设备</a><a href="#soil">解冻土地</a><a href="#tree">圣诞树</a>
+<div class="group">维护</div><a href="#parameters">参数速查</a><a href="#resources">资源目录</a><a href="#testing">测试边界</a>
+</nav></aside>
+<main>
+<header class="hero" id="overview" data-searchable>
+<div class="meta"><span class="pill">Minecraft 1.20.1</span><span class="pill">Forge 47.4.2</span><span class="pill">Java 17</span><span class="pill">namespace: winternightak</span><span class="pill">Cold Sweat 必需前置</span></div>
+<h1>功能与代码索引</h1>
+<p class="muted">以当前工作区源码和资源为准，覆盖 Phase 1–3 已实现功能。本文取代之前散落在页面末尾的更新片段；需求文档描述与这里冲突时，应先检查对应源码。</p>
+<div class="flow"><span>极地生存</span><i>→</i><span>狩猎与热源</span><i>→</i><span>猎人营地 / 雪村</span><i>→</i><span>铁板与红石</span><i>→</i><span>加热器改造环境</span></div>
+<div class="note warn">开发约定：除非明确要求，不打包；常规修改只做编译和资源语法检查，功能测试由玩家完成。</div>
+</header>
+
+<section id="architecture" data-searchable><h2>代码入口</h2><div class="grid">
+<div class="card"><h3>注册</h3><p>方块、物品、实体、菜单、地物与网络从主类接入。</p><div class="files"><a href="src/main/java/com/akingno/winternightak/WinterNight.java">WinterNight.java</a> · <code>WinterNight()</code></div></div>
+<div class="card"><h3>世界生成</h3><p>群系、噪声、地层、世界预设和分布参数。</p><div class="files"><a href="src/main/java/com/akingno/winternightak/world/gen/PolarWorldgen.java">PolarWorldgen.java</a> · <code>bootstrapBiomes / bootstrapSettings / bootstrapPresets</code></div></div>
+<div class="card"><h3>服务端运行时</h3><p>暴雪、出生物品、营地与玩家状态同步。</p><div class="files"><a href="src/main/java/com/akingno/winternightak/world/PolarAdventureEvents.java">PolarAdventureEvents.java</a></div></div>
+<div class="card"><h3>客户端</h3><p>界面、粒子、物品属性、实体渲染和颜色。</p><div class="files"><a href="src/main/java/com/akingno/winternightak/client/ClientModEvents.java">ClientModEvents.java</a><br><a href="src/main/java/com/akingno/winternightak/client/BlizzardClient.java">BlizzardClient.java</a></div></div>
+</div></section>
+
+<section id="world"><h2>Phase 1｜世界与群系</h2>
+<article class="feature" data-searchable><div class="feature-head"><h3>极地世界与四个群系</h3><div class="badges"><span class="badge p1">Worldgen</span></div></div>
+<p><code>winternightak:winter_night</code> 固定午夜视觉，但游戏时间正常推进。大陆噪声划分极地海洋、冰盖、积雪沙滩和冰原。</p>
+<ul><li><code>-2…-0.18</code>：极地海洋；<code>-0.18…0.42</code>：冰盖。</li><li><code>0.42…0.43</code>：窄积雪沙滩；<code>0.43…2</code>：冰原。</li><li>沙滩从原冰原面积划分，不改变海洋和冰盖阈值；宽度不是固定格数。</li></ul>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/world/gen/PolarWorldgen.java">PolarWorldgen.java</a> · <code>OCEAN_THRESHOLD / ISLAND_THRESHOLD / BEACH_INLAND_THRESHOLD</code><br><a href="src/generated/resources/data/winternightak/worldgen/world_preset/winter_night.json">world_preset/winter_night.json</a></div></article>
+<article class="feature" data-searchable><div class="feature-head"><h3>地形高度与岸线</h3><div class="badges"><span class="badge p1">Terrain</span></div></div>
+<p>冰盖顶部为 Y=62。积雪沙滩沙面也以 Y=62 为目标；进入冰原后逐渐补回高度并增加起伏。内陆基础抬升上限为 <code>20</code>。</p>
+<p>调节最高高度的主入口是 <code>ISLAND_MAX_RISE</code>；游戏读取生成 JSON，因此还需同步 <code>polar.json</code> 内两处内陆 clamp 的 <code>max</code>。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/world/gen/PolarWorldgen.java">PolarWorldgen.java</a> · <code>ISLAND_MAX_RISE</code><br><a href="src/generated/resources/data/winternightak/worldgen/noise_settings/polar.json">noise_settings/polar.json</a></div></article>
+<article class="feature" data-searchable><div class="feature-head"><h3>冻洋与冰山</h3><div class="badges"><span class="badge p1">Ocean</span></div></div>
+<p>极地海洋温度0.16，只刷新鱿鱼、鳕鱼和鲑鱼。海床10格沙砾，再下方为基岩。浮冰冰山平均每16区块尝试一次，蓝冰冰山每200区块尝试一次；完全沿用原版冰山雪块，雪块受本模组重力影响。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/world/gen/PolarIcebergFeature.java">PolarIcebergFeature.java</a><br><span class="path">data/winternightak/worldgen/placed_feature/iceberg_*.json</span></div></article>
+</section>
+
+<section id="terrain"><h2>Phase 1｜地层与自然资源</h2>
+<article class="feature" data-searchable><div class="feature-head"><h3>地表剖面</h3><div class="badges"><span class="badge p1">Surface Rules</span></div></div>
+<ul><li>冰盖：Y=43…62 约20格硬冰，顶部薄雪。</li><li>积雪沙滩：薄雪、约3格沙子、永久冻土；无枯树和村庄。</li><li>冰原：薄雪、约3格冻结土壤、永久冻土；Y=8…-63 为无矿深板岩，Y=-64为基岩。</li><li>永久冻土不可正常挖掘，外观使用本地砂土贴图。</li></ul>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/world/gen/PolarWorldgen.java">PolarWorldgen.java</a> · <code>bootstrapSettings()</code><br><a href="src/main/java/com/akingno/winternightak/block/ModBlocks.java">ModBlocks.java</a> · <code>PERMAFROST / FROZEN_SOIL / HARD_ICE</code></div></article>
+<article class="feature" data-searchable><div class="feature-head"><h3>薄雪、雪块重力与冻结土壤</h3><div class="badges"><span class="badge p1">Feature + Mixin</span></div></div>
+<p>硬冰、冻结土壤和沙子顶面生成薄雪。原版雪块具有沙子式重力。冻结土壤属于铲子可挖方块，硬度0.75，比泥土0.5稍慢；永久冻土保持基岩强度。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/world/gen/PolarSnowFeature.java">PolarSnowFeature.java</a><br><a href="src/main/java/com/akingno/winternightak/mixin/SnowBlockGravityMixin.java">SnowBlockGravityMixin.java</a><br><a href="src/main/resources/data/minecraft/tags/blocks/mineable/shovel.json">mineable/shovel.json</a></div></article>
+<article class="feature" data-searchable><div class="feature-head"><h3>浅层粘土与枯木</h3><div class="badges"><span class="badge p1">Resources</span></div></div>
+<p>冰原每区块3个粘土候选，每个75%通过；单团最大3×3、厚1～2格，只替换冻结土壤紧下方的永久冻土。枯木平均每8区块尝试一次，高5～7格，使用云杉木且无树叶。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/world/gen/PolarClayFeature.java">PolarClayFeature.java</a> · <code>ATTEMPTS / CHANCE / SEARCH_DEPTH</code><br><a href="src/main/java/com/akingno/winternightak/world/gen/PolarDeadTreeFeature.java">PolarDeadTreeFeature.java</a></div></article>
+</section>
+
+<section id="ecology"><h2>Phase 1｜生态与基础物品</h2>
+<article class="feature" data-searchable><div class="feature-head"><h3>动物与狩猎</h3><div class="badges"><span class="badge p1">Ecology</span></div></div>
+<p>陆地只保留兔、狐狸和狼，海洋只保留鱿鱼、鳕鱼、鲑鱼；兔和狐狸固定雪地外观。主要掉落是生动物肉、油脂和 Cold Sweat 毛皮，不掉皮革。狐狸10%概率叼物，其中肉和毛皮各半。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/world/PolarSpawning.java">PolarSpawning.java</a><br><a href="src/main/java/com/akingno/winternightak/loot/HuntingLootModifier.java">HuntingLootModifier.java</a><br><span class="path">data/winternightak/loot_tables/hunting/</span></div></article>
+<article class="feature" data-searchable><div class="feature-head"><h3>硬冰资源链</h3><div class="badges"><span class="badge p1">Resource Chain</span></div></div>
+<p>硬冰使用冰外观、铁块级强度，只能由冰镐有效开采，并掉冰砖；TNT破坏也可掉冰砖。冰半砖可上下合成为硬冰。冰镐无玩家配方，由工具匠出售。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/block/custom/HardIceBlock.java">HardIceBlock.java</a><br><a href="src/main/java/com/akingno/winternightak/item/custom/IcePickItem.java">IcePickItem.java</a></div></article>
+<article class="feature" data-searchable><div class="feature-head"><h3>毛皮斗篷</h3><div class="badges"><span class="badge p1">Cold Sweat</span></div></div>
+<p>4毛皮制作胸部装备，提供中间档保暖并降低10%移动速度。背包和穿戴外观使用本地皮革胸甲贴图，支持皮革染色数据。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/item/custom/FurWrapItem.java">FurWrapItem.java</a><br><a href="src/main/resources/data/winternightak/cold_sweat/item/insulator/fur_wrap.json">insulator/fur_wrap.json</a></div></article>
+</section>
+
+<section id="heat"><h2>Phase 2｜燃料与取暖</h2>
+<article class="feature" data-searchable><div class="feature-head"><h3>燃料设备</h3><div class="badges"><span class="badge p2">Heat</span></div></div>
+<p>公共燃料：木棍2400 tick、小麦2400 tick、油脂1800 tick。设备无燃料熄灭，必须用打火石点火。</p>
+<ul><li>油灯：容量36000、热量0.35、范围3、亮度9。</li><li>火把：新物品燃料0；放置添料后点火，回收保存余量；手持不供暖。热量0.45、范围3。</li><li>营火：容量72000、热量0.9、范围8，可放食物烹制。</li><li>加热器加入同一 Cold Sweat 账户后，四种热源共享累计上限2.5。</li></ul>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/block/entity/FuelSettings.java">FuelSettings.java</a> · <a href="src/main/java/com/akingno/winternightak/block/entity/LampSettings.java">LampSettings.java</a> · <a href="src/main/java/com/akingno/winternightak/block/entity/TorchSettings.java">TorchSettings.java</a> · <a href="src/main/java/com/akingno/winternightak/block/entity/CampfireSettings.java">CampfireSettings.java</a><br><a href="src/main/java/com/akingno/winternightak/compat/CampfireTemperature.java">CampfireTemperature.java</a></div></article>
+<article class="feature" data-searchable><div class="feature-head"><h3>出生与死亡规则</h3><div class="badges"><span class="badge p2">Rules</span></div></div>
+<p>玩家首次进入获得满耐久打火石；极地世界自动启用原版 <code>keepInventory</code>。持久标记防止死亡或重登重复发放。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/world/PolarAdventureEvents.java">PolarAdventureEvents.java</a></div></article>
+</section>
+
+<section id="weather"><h2>Phase 2｜暴雪与猎人营地</h2>
+<article class="feature" data-searchable><div class="feature-head"><h3>暴风雪</h3><div class="badges"><span class="badge p2">Weather</span></div></div>
+<p>每48000 tick检查一次，20%概率触发，持续3600 tick。显示密集自定义雪花和黑色雾气，并施加0.25额外降温；状态存档并同步客户端。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/world/PolarAdventureSettings.java">PolarAdventureSettings.java</a><br><a href="src/main/java/com/akingno/winternightak/world/BlizzardData.java">BlizzardData.java</a> · <a href="src/main/java/com/akingno/winternightak/client/BlizzardClient.java">BlizzardClient.java</a></div></article>
+<article class="feature" data-searchable><div class="feature-head"><h3>四向猎人营地</h3><div class="badges"><span class="badge p2">Placement</span></div></div>
+<p>各方向在出生点350～650格寻找候选，最多3次；失败就跳过该方向。营地允许在海洋生成，不再进行昂贵的额外选址。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/world/HunterCampData.java">HunterCampData.java</a><br><a href="src/main/java/com/akingno/winternightak/world/PolarAdventureSettings.java">PolarAdventureSettings.java</a></div></article>
+</section>
+
+<section id="village"><h2>Phase 2｜雪村、指南针与交易</h2>
+<article class="feature" data-searchable><div class="feature-head"><h3>独立雪村</h3><div class="badges"><span class="badge p2">Jigsaw</span></div></div>
+<p>复用原版结构放置和模板池，只在冰原生成。频率0.20、spacing 16、separation 6、拼图深度6、最大半径80。道路为沙砾，草方块/泥土改冻结土壤；移除箱子、农田、雪屋、树、木桶、堆肥桶、制箭台；熔炉和火把分别换成满燃料极地营火与极地火把。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/world/gen/PolarVillageStructure.java">PolarVillageStructure.java</a> · <a href="src/main/java/com/akingno/winternightak/world/gen/PolarVillageElement.java">PolarVillageElement.java</a> · <a href="src/main/java/com/akingno/winternightak/world/gen/PolarVillageSettings.java">PolarVillageSettings.java</a><br><span class="path">data/winternightak/worldgen/template_pool/village/snowy/</span></div></article>
+<article class="feature" data-searchable><div class="feature-head"><h3>指南针与交易</h3><div class="badges"><span class="badge p2">Trades</span><span class="badge p3">Phase 3</span></div></div>
+<p>渔夫用原版结构定位接口寻找100区块范围内最近雪村，将维度和坐标保存到指南针；失败后1200 tick再试。</p>
+<table><thead><tr><th>职业</th><th>输入</th><th>输出</th></tr></thead><tbody>
+<tr><td>渔夫</td><td>20毛皮</td><td>村庄指南针</td></tr><tr><td>渔夫</td><td>30生动物肉</td><td>石标枪</td></tr>
+<tr><td>工具匠</td><td>40毛皮</td><td>冰镐</td></tr><tr><td>工具匠</td><td>16云杉原木</td><td>铁板</td></tr><tr><td>工具匠</td><td>1铁锭</td><td>圣诞树苗（补货4次）</td></tr>
+<tr><td>武器匠</td><td>15硬冰</td><td>石标枪</td></tr><tr><td>武器匠</td><td>32生动物肉</td><td>弓</td></tr>
+<tr><td>牧师</td><td>4油脂 + 8云杉原木</td><td>1红石</td></tr>
+</tbody></table>
+<p>除树苗外通常每次补货上限12。旧村民按职业版本迁移，尽量保留交易使用次数和指南针坐标。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/world/PolarVillagerTrades.java">PolarVillagerTrades.java</a><br><a href="src/main/java/com/akingno/winternightak/world/PolarVillageLocator.java">PolarVillageLocator.java</a> · <a href="src/main/java/com/akingno/winternightak/item/custom/VillageCompassItem.java">VillageCompassItem.java</a></div></article>
+</section>
+
+<section id="weapons"><h2>Phase 2｜标枪、弓与箭</h2>
+<article class="feature" data-searchable><div class="feature-head"><h3>可投掷石标枪</h3><div class="badges"><span class="badge p2">Entity</span></div></div>
+<p>左键基础伤害5、攻击距离增加1格。右键蓄力10 tick后投出，基础伤害7、初速2.5；石级耐久，投掷消耗1点，落地可拾回并保存物品数据。不支持忠诚、引雷或激流。</p>
+<p>物品图标和飞行实体使用复制到本模组资源目录的原版三叉戟贴图。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/item/custom/StoneJavelinItem.java">StoneJavelinItem.java</a><br><a href="src/main/java/com/akingno/winternightak/entity/StoneJavelinEntity.java">StoneJavelinEntity.java</a> · <a href="src/main/java/com/akingno/winternightak/client/StoneJavelinRenderer.java">StoneJavelinRenderer.java</a></div></article>
+<article class="feature" data-searchable><div class="feature-head"><h3>弓箭来源</h3><div class="badges"><span class="badge p2">Recipe</span></div></div>
+<p>武器匠出售弓。原版箭配方覆盖为无序合成：1燧石 + 1木棍 → 4箭，不需要羽毛。</p>
+<div class="files"><a href="src/main/resources/data/minecraft/recipes/arrow.json">data/minecraft/recipes/arrow.json</a></div></article>
+</section>
+
+<section id="materials"><h2>Phase 3｜铁板与红石</h2>
+<article class="feature" data-searchable><div class="feature-head"><h3>文明资源路线</h3><div class="badges"><span class="badge p3">Phase 3</span></div></div>
+<p>16云杉原木交易1铁板；铁板在熔炉200 tick或高炉100 tick炼成1铁锭，经验0.7。牧师以4油脂和8云杉原木出售1红石。世界没有矿物生成。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/item/custom/MetalPartItem.java">MetalPartItem.java</a><br><a href="src/main/resources/data/winternightak/recipes/metal_part_smelting.json">metal_part_smelting.json</a> · <a href="src/main/resources/data/winternightak/recipes/metal_part_blasting.json">metal_part_blasting.json</a></div></article>
+</section>
+
+<section id="devices"><h2>Phase 3｜极地工作台与设备</h2>
+<article class="feature" data-searchable><div class="feature-head"><h3>极地工作台</h3><div class="badges"><span class="badge p3">Crafting</span></div></div>
+<p>普通3×3界面，支持Shift移动和关闭返还材料。基础配方可用；<code>polar_shaped</code> 高级配方只接受专属合成格。配方为工作台居中、上下左右各1铁板。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/crafting/PolarCrafting.java">PolarCrafting.java</a> · <code>PolarRecipe.matches()</code><br><a href="src/main/java/com/akingno/winternightak/crafting/PolarWorkbenchMenu.java">PolarWorkbenchMenu.java</a></div></article>
+<article class="feature" data-searchable><div class="feature-head"><h3>加热器与太阳灯</h3><div class="badges"><span class="badge p3">Devices</span></div></div>
+<p>只认六面直接相邻的红石块，不认普通红石信号。加热器热量1.8、范围8，每20 tick检查半径4格的已加载区域；太阳灯关闭亮度0、开启亮度15。</p>
+<p>加热器配方为8铁板包围红石；太阳灯为中心红石、四边铁板、四角玻璃。两者只能在极地工作台制作。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/block/custom/AdjacentRedstoneBlock.java">AdjacentRedstoneBlock.java</a><br><a href="src/main/java/com/akingno/winternightak/block/custom/HeaterBlock.java">HeaterBlock.java</a> · <a href="src/main/java/com/akingno/winternightak/block/entity/HeaterSettings.java">HeaterSettings.java</a></div></article>
+</section>
+
+<section id="soil"><h2>Phase 3｜解冻与耕作</h2>
+<article class="feature" data-searchable><div class="feature-head"><h3>解冻土地生命周期</h3><div class="badges"><span class="badge p3">Environment</span></div></div>
+<p>加热器将范围内有顶盖的冻结土壤变为解冻土壤。它可锄成耕地、铲成路径，支持原版作物、水分、踩踏和退化。失去加热器后通过随机刻重新冻结，室内关机同样冻回去。</p>
+<p>只访问已加载区块；未加载边界暂缓冻结。当前按半径判断，不计算墙壁阻隔。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/block/custom/SoilHeat.java">SoilHeat.java</a><br><a href="src/main/java/com/akingno/winternightak/block/custom/ThawedSoilBlock.java">ThawedSoilBlock.java</a> · <a href="src/main/java/com/akingno/winternightak/block/custom/ThawedFarmlandBlock.java">ThawedFarmlandBlock.java</a> · <a href="src/main/java/com/akingno/winternightak/block/custom/ThawedPathBlock.java">ThawedPathBlock.java</a></div></article>
+</section>
+
+<section id="tree"><h2>Phase 3｜圣诞树</h2>
+<article class="feature" data-searchable><div class="feature-head"><h3>树苗、生长与叶片</h3><div class="badges"><span class="badge p3">Feature</span></div></div>
+<p>树苗复用原版两阶段生长、光照≥9、随机刻和骨粉规则，可种在解冻土壤。树高9格，含8根云杉原木、分层叶冠、每装饰层0～3块红/蓝玻璃和顶部南瓜灯；空间不足保留树苗。</p>
+<p>独立圣诞树叶使用云杉外观与原版自然消失机制；剪刀或精准采集100%掉自身，普通破坏和自然消失无掉落。</p>
+<div class="files"><a href="src/main/java/com/akingno/winternightak/world/gen/ChristmasTreeFeature.java">ChristmasTreeFeature.java</a><br><a href="src/main/java/com/akingno/winternightak/block/custom/ChristmasTreeSaplingBlock.java">ChristmasTreeSaplingBlock.java</a><br><a href="src/main/resources/data/winternightak/loot_tables/blocks/christmas_leaves.json">christmas_leaves.json</a></div></article>
+</section>
+
+<section id="parameters" data-searchable><h2>参数速查</h2>
+<table><thead><tr><th>内容</th><th>当前值</th><th>维护入口</th><th>说明</th></tr></thead><tbody>
+<tr><td>海洋 / 岛屿阈值</td><td>-0.18 / 0.42</td><td><code>PolarWorldgen</code></td><td>群系与固体地形，新区块</td></tr>
+<tr><td>沙滩宽度</td><td>0.42～0.43</td><td><code>BEACH_INLAND_THRESHOLD</code></td><td>调高更宽</td></tr>
+<tr><td>冰原高度上限</td><td>20.0</td><td><code>ISLAND_MAX_RISE</code> + polar.json两处max</td><td>调高使内陆更高</td></tr>
+<tr><td>粘土</td><td>3次×75%，3×3，厚1～2</td><td><code>PolarClayFeature</code></td><td>仅冰原新区块</td></tr>
+<tr><td>枯木</td><td>1/8区块，5～7格</td><td><code>PolarDeadTreeFeature</code></td><td>仅冰原</td></tr>
+<tr><td>燃料</td><td>2400 / 2400 / 1800 tick</td><td><code>FuelSettings</code></td><td>木棍 / 小麦 / 油脂</td></tr>
+<tr><td>加热器</td><td>半径4 / 20 tick / 热1.8 / 范围8</td><td><code>HeaterSettings</code></td><td>土壤与温度</td></tr>
+<tr><td>共享热量上限</td><td>2.5</td><td><code>HeaterSettings.MAX_HEAT</code></td><td>四种热源</td></tr>
+<tr><td>暴雪</td><td>48000 / 20% / 3600 tick</td><td><code>PolarAdventureSettings</code></td><td>检查 / 概率 / 时长</td></tr>
+<tr><td>营地</td><td>350～650格 / 每方向3次</td><td><code>PolarAdventureSettings</code></td><td>已有营地不迁移</td></tr>
+<tr><td>村庄</td><td>0.20 / 16 / 6 / 深度6 / 半径80</td><td><code>PolarVillageSettings</code></td><td>新区块结构</td></tr>
+<tr><td>标枪</td><td>近战5 / 投掷7 / 蓄力10 tick</td><td><code>StoneJavelinItem</code></td><td>石级耐久</td></tr>
+</tbody></table></section>
+
+<section id="resources" data-searchable><h2>资源与维护规则</h2>
+<table><thead><tr><th>目录</th><th>职责</th></tr></thead><tbody>
+<tr><td class="path">src/main/java/com/akingno/winternightak/</td><td>行为、注册、运行时与世界生成源代码。</td></tr>
+<tr><td class="path">src/main/resources/assets/winternightak/</td><td>语言、模型、状态和本地贴图副本；借用贴图应先复制到此处。</td></tr>
+<tr><td class="path">src/main/resources/data/winternightak/</td><td>配方、掉落、Cold Sweat 数据、手工地物与村庄模板池。</td></tr>
+<tr><td class="path">src/main/resources/data/minecraft/</td><td>有意覆盖的原版数据，例如箭配方；会全局影响原版内容。</td></tr>
+<tr><td class="path">src/generated/resources/data/winternightak/</td><td>群系、噪声、维度、预设与结构数据；改变 bootstrap 时必须同步。</td></tr>
+</tbody></table>
+<div class="note">Cold Sweat 是必需前置；GeckoLib 不是当前依赖。世界生成 Java 与 JSON 当前采用双维护，修改阈值、高度或群系时必须检查两边一致。</div>
+</section>
+
+<section id="testing" data-searchable><h2>存档与测试边界</h2>
+<ul><li>群系、地层、粘土、冰山、沙滩和结构分布只在新区块生效；改变群系源时优先新建世界验证。</li><li>村民交易通过版本标记迁移；调整已有交易时同步提高对应职业版本。</li><li>常规验证只执行编译与 JSON/资源检查，不做远距离地形采样或游戏功能测试。</li><li>地层边界建议检查 Y=9、8、-63、-64。</li></ul>
+</section>
+<footer class="footer">来源：Phase 1–3 需求文档、开发记录与当前工作区源码。页面不加载外部资源，可离线搜索和打印。</footer>
+</main></div>
+<script>const input=document.getElementById('search');const searchable=[...document.querySelectorAll('[data-searchable],.feature')];input.addEventListener('input',()=>{const q=input.value.trim().toLocaleLowerCase('zh-CN');searchable.forEach(n=>n.classList.toggle('hidden',Boolean(q)&&!n.textContent.toLocaleLowerCase('zh-CN').includes(q)))})</script>
+</body></html>
