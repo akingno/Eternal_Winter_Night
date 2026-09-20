@@ -58,6 +58,16 @@ public class PolarTorchBlock extends TorchBlock implements EntityBlock {
     @Override public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!(level.getBlockEntity(pos) instanceof PolarTorchBlockEntity torch)) return InteractionResult.PASS;
         ItemStack held = player.getItemInHand(hand);
+        int fuel = com.akingno.winternightak.block.entity.FuelSettings.fuelTicks(held);
+        if (fuel > 0) {
+            if (!level.isClientSide) {
+                if (torch.addFuel(fuel)) {
+                    if (!player.getAbilities().instabuild) held.shrink(1);
+                    player.displayClientMessage(Component.translatable("message.winternightak.torch_fuel", (torch.getFuelTicks() + 19) / 20), true);
+                } else player.displayClientMessage(Component.translatable("message.winternightak.torch_full"), true);
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
         if (held.is(Items.FLINT_AND_STEEL)) {
             if (!level.isClientSide) {
                 if (torch.getFuelTicks() <= 0) player.displayClientMessage(Component.translatable("message.winternightak.torch_spent"), true);
@@ -82,7 +92,7 @@ public class PolarTorchBlock extends TorchBlock implements EntityBlock {
     // 物品提示读取BlockEntityTag余料；(fuel+19)/20将不足1秒的余量也显示为1秒。
     @Override public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
         var data = stack.getTagElement("BlockEntityTag");
-        int fuel = data != null && data.contains("FuelTicks") ? data.getInt("FuelTicks") : TorchSettings.FUEL_TICKS;
+        int fuel = data != null && data.contains("FuelTicks") ? data.getInt("FuelTicks") : 0;
         tooltip.add(Component.translatable("message.winternightak.torch_fuel", (fuel + 19) / 20));
         tooltip.add(Component.translatable("tooltip.winternightak.polar_torch"));
     }

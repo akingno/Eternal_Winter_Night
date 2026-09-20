@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "moisture=0": {
+      "model": "winternightak:block/thawed_farmland"
+    },
+    "moisture=1": {
+      "model": "winternightak:block/thawed_farmland"
+    },
+    "moisture=2": {
+      "model": "winternightak:block/thawed_farmland"
+    },
+    "moisture=3": {
+      "model": "winternightak:block/thawed_farmland"
+    },
+    "moisture=4": {
+      "model": "winternightak:block/thawed_farmland"
+    },
+    "moisture=5": {
+      "model": "winternightak:block/thawed_farmland"
+    },
+    "moisture=6": {
+      "model": "winternightak:block/thawed_farmland"
+    },
+    "moisture=7": {
+      "model": "winternightak:block/thawed_farmland_moist"
+    }
+  }
+}

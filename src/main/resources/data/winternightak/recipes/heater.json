@@ -1,0 +1,19 @@
+{
+  "type": "winternightak:polar_shaped",
+  "pattern": [
+    "MMM",
+    "MRM",
+    "MMM"
+  ],
+  "key": {
+    "M": {
+      "item": "winternightak:metal_part"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "winternightak:heater"
+  }
+}

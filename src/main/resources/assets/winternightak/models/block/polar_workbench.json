@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "winternightak:block/polar_workbench_front",
+    "down": "winternightak:block/polar_workbench_bottom",
+    "up": "winternightak:block/polar_workbench_top",
+    "north": "winternightak:block/polar_workbench_front",
+    "south": "winternightak:block/polar_workbench_front",
+    "east": "winternightak:block/polar_workbench_side",
+    "west": "winternightak:block/polar_workbench_side"
+  }
+}

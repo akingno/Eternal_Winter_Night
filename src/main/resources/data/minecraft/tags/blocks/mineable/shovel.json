@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "winternightak:frozen_soil"
+    "winternightak:frozen_soil",
+    "winternightak:thawed_soil",
+    "winternightak:thawed_farmland",
+    "winternightak:thawed_path"
   ]
 }

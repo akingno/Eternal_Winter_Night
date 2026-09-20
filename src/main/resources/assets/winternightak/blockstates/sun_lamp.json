@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "winternightak:block/sun_lamp"
+    },
+    "lit=true": {
+      "model": "winternightak:block/sun_lamp_on"
+    }
+  }
+}

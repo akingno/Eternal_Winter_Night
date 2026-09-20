@@ -15,6 +15,8 @@ public class ClientModEvents {
     @SubscribeEvent
     // spent属性只决定燃尽火把的物品外观，不控制实际燃料或服务器点火行为。
     public static void onClientSetup(net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent event) {
+        event.enqueueWork(() -> net.minecraft.client.gui.screens.MenuScreens.register(
+                com.akingno.winternightak.crafting.PolarCrafting.MENU.get(), PolarWorkbenchScreen::new));
         // 原版磁石指针算法；未绑定或跨维度时按原版方式旋转。
         event.enqueueWork(() -> net.minecraft.client.renderer.item.ItemProperties.register(
                 com.akingno.winternightak.item.ModItems.VILLAGE_COMPASS.get(),
@@ -26,7 +28,7 @@ public class ClientModEvents {
                 new net.minecraft.resources.ResourceLocation(WinterNight.MOD_ID, "spent"),
                 (stack, level, entity, seed) -> {
                     var tag = stack.getTagElement("BlockEntityTag");
-                    return tag != null && tag.contains("FuelTicks") && tag.getInt("FuelTicks") <= 0 ? 1 : 0;
+                    return tag == null || tag.getInt("FuelTicks") <= 0 ? 1 : 0;
                 }));
     }
 

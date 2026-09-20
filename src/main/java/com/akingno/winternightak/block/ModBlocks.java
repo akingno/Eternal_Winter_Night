@@ -25,9 +25,31 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, WinterNight.MOD_ID);
 
     // 此处注册设备方块及其照明；配方/掉落在data资源中，供暖在compat.CampfireTemperature。
-    public static final RegistryObject<Block> POLAR_TORCH = registerBlock("polar_torch",
+    public static final RegistryObject<Block> POLAR_WORKBENCH = registerBlock("polar_workbench",
+            () -> new PolarWorkbenchBlock(BlockBehaviour.Properties.copy(Blocks.CRAFTING_TABLE)));
+    public static final RegistryObject<Block> HEATER = registerBlock("heater",
+            () -> new HeaterBlock(BlockBehaviour.Properties.copy(Blocks.OBSERVER)));
+    public static final RegistryObject<Block> SUN_LAMP = registerBlock("sun_lamp",
+            () -> new AdjacentRedstoneBlock(BlockBehaviour.Properties.copy(Blocks.REDSTONE_LAMP)
+                    .lightLevel(state -> state.getValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT) ? 15 : 0)));
+    public static final RegistryObject<Block> THAWED_SOIL = registerBlock("thawed_soil",
+            () -> new ThawedSoilBlock(BlockBehaviour.Properties.copy(Blocks.DIRT).randomTicks()));
+    public static final RegistryObject<Block> THAWED_FARMLAND = registerBlock("thawed_farmland",
+            () -> new ThawedFarmlandBlock(BlockBehaviour.Properties.copy(Blocks.FARMLAND).randomTicks()));
+    public static final RegistryObject<Block> THAWED_PATH = registerBlock("thawed_path",
+            () -> new ThawedPathBlock(BlockBehaviour.Properties.copy(Blocks.DIRT_PATH).randomTicks()));
+    public static final RegistryObject<Block> POLAR_TORCH = BLOCKS.register("polar_torch",
             () -> new PolarTorchBlock(BlockBehaviour.Properties.copy(Blocks.TORCH)
                     .lightLevel(state -> state.getValue(PolarTorchBlock.LIT) ? 14 : 0)));
+    // 墙上与地面火把共用物品、燃料实体和掉落表；14为燃烧亮度，熄灭为0。
+    public static final RegistryObject<Block> POLAR_WALL_TORCH = BLOCKS.register("polar_wall_torch",
+            () -> new PolarWallTorchBlock(BlockBehaviour.Properties.copy(Blocks.WALL_TORCH)
+                    .dropsLike(POLAR_TORCH.get())
+                    .lightLevel(state -> state.getValue(PolarTorchBlock.LIT) ? 14 : 0)));
+    static {
+        ModItems.ITEMS.register("polar_torch", () -> new net.minecraft.world.item.StandingAndWallBlockItem(
+                POLAR_TORCH.get(), POLAR_WALL_TORCH.get(), new Item.Properties(), Direction.DOWN));
+    }
 
     public static final RegistryObject<Block> CAMPFIRE = registerBlock("campfire",
             () -> new PolarCampfireBlock(BlockBehaviour.Properties.copy(Blocks.CAMPFIRE)

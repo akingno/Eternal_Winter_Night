@@ -40,6 +40,8 @@ public class WinterNight
 
         // 公共注册入口：物品/方块/方块实体/网络/地物/结构类型必须在注册阶段挂到事件总线。
         ModItems.register(modEventBus);
+        com.akingno.winternightak.crafting.PolarCrafting.MENUS.register(modEventBus);
+        com.akingno.winternightak.crafting.PolarCrafting.SERIALIZERS.register(modEventBus);
         ModBlocks.register(modEventBus);
         com.akingno.winternightak.block.entity.ModBlockEntities.TYPES.register(modEventBus);
         com.akingno.winternightak.network.PolarNetwork.register();
@@ -87,6 +89,7 @@ public class WinterNight
         {
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.CAMPFIRE.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.POLAR_TORCH.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.POLAR_WALL_TORCH.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.GLASS_DOOR.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.HUSUMA.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.SAKURA_LEAVES.get(), RenderType.cutout());

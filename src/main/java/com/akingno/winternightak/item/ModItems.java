@@ -19,6 +19,9 @@ public class ModItems {
             com.akingno.winternightak.item.custom.VillageCompassItem::new);
     public static final RegistryObject<Item> STONE_JAVELIN = ITEMS.register("stone_javelin",
             com.akingno.winternightak.item.custom.StoneJavelinItem::new);
+    // Phase 3文明金属入口：本物品由村庄交易获得，可进一步熔炼成铁锭。
+    public static final RegistryObject<Item> METAL_PART = ITEMS.register("metal_part",
+            com.akingno.winternightak.item.custom.MetalPartItem::new);
 
     // 第一、二阶段资源入口：油脂是燃料，兽肉复用生牛肉食物值，冰砖为物品而非可放方块。
     public static final RegistryObject<Item> ANIMAL_FAT = ITEMS.register("animal_fat",

@@ -31,6 +31,13 @@ public class ModCreativeModTabs {
                         output.accept(ModItems.FUR_WRAP.get());
                         output.accept(ModItems.VILLAGE_COMPASS.get());
                         output.accept(ModItems.STONE_JAVELIN.get());
+                        output.accept(ModItems.METAL_PART.get());
+                        output.accept(ModBlocks.POLAR_WORKBENCH.get());
+                        output.accept(ModBlocks.HEATER.get());
+                        output.accept(ModBlocks.SUN_LAMP.get());
+                        output.accept(ModBlocks.THAWED_SOIL.get());
+                        output.accept(ModBlocks.THAWED_FARMLAND.get());
+                        output.accept(ModBlocks.THAWED_PATH.get());
                         output.accept(com.momosoftworks.coldsweat.core.init.ItemInit.GOAT_FUR.get());
                         output.accept(com.momosoftworks.coldsweat.core.init.ItemInit.GOAT_FUR_HELMET.get());
                         output.accept(com.momosoftworks.coldsweat.core.init.ItemInit.GOAT_FUR_CHESTPLATE.get());

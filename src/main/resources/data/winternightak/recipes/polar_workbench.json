@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " M ",
+    "MTM",
+    " M "
+  ],
+  "key": {
+    "M": {
+      "item": "winternightak:metal_part"
+    },
+    "T": {
+      "item": "minecraft:crafting_table"
+    }
+  },
+  "result": {
+    "item": "winternightak:polar_workbench"
+  }
+}

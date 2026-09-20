@@ -1,0 +1,22 @@
+{
+  "type": "winternightak:polar_shaped",
+  "pattern": [
+    "GMG",
+    "MRM",
+    "GMG"
+  ],
+  "key": {
+    "M": {
+      "item": "winternightak:metal_part"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    }
+  },
+  "result": {
+    "item": "winternightak:sun_lamp"
+  }
+}

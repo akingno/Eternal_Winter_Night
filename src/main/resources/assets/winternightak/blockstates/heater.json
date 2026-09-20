@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "winternightak:block/heater"
+    },
+    "lit=true": {
+      "model": "winternightak:block/heater_on"
+    }
+  }
+}

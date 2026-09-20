@@ -77,6 +77,24 @@ public final class PolarVillageElement extends LegacySinglePoolElement {
     /** 沿用原版规则处理器，在单次模板放置中替换资源，不扫描世界或加载额外区块。 */
     private static RuleProcessor villageResources() {
         var rules = new ArrayList<ProcessorRule>();
+        // 仅初始化新放置模板；之后燃料按正常规则消耗，不会自动补满。
+        var torchFuel = new CompoundTag();
+        torchFuel.putString("id", "winternightak:polar_torch");
+        torchFuel.putInt("FuelTicks", com.akingno.winternightak.block.entity.TorchSettings.FUEL_TICKS);
+        rules.add(new ProcessorRule(new BlockMatchTest(Blocks.TORCH), AlwaysTrueTest.INSTANCE,
+                PosAlwaysTrueTest.INSTANCE, ModBlocks.POLAR_TORCH.get().defaultBlockState()
+                .setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT, true),
+                new AppendStatic(torchFuel)));
+        for (var facing : Direction.Plane.HORIZONTAL) {
+            // 保留墙上火把朝向；最终随模板旋转，不把墙上火把强行改成地面火把。
+            rules.add(new ProcessorRule(new BlockStateMatchTest(Blocks.WALL_TORCH.defaultBlockState()
+                    .setValue(net.minecraft.world.level.block.WallTorchBlock.FACING, facing)),
+                    AlwaysTrueTest.INSTANCE, PosAlwaysTrueTest.INSTANCE,
+                    ModBlocks.POLAR_WALL_TORCH.get().defaultBlockState()
+                            .setValue(net.minecraft.world.level.block.WallTorchBlock.FACING, facing)
+                            .setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT, true),
+                    new AppendStatic(torchFuel)));
+        }
         // 容量直接读取营火参数；修改容量后新村庄自动使用新值，不重复写燃料常量。
         var fuel = new CompoundTag();
         fuel.putInt("FuelTicks", CampfireSettings.MAX_FUEL_TICKS);

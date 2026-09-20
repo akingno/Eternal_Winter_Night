@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_farmland",
+  "textures": {
+    "dirt": "winternightak:block/thawed_soil",
+    "top": "winternightak:block/thawed_farmland_moist"
+  }
+}
