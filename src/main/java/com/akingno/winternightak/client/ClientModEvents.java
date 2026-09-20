@@ -19,6 +19,9 @@ public class ClientModEvents {
     }
     @SubscribeEvent
     public static void registerLeafItemColors(net.minecraftforge.client.event.RegisterColorHandlersEvent.Item event) {
+        // 皮革基底使用原版皮革颜色，外层装饰不染色；同时支持原版皮革染色数据。
+        event.register((stack, tint) -> tint == 0 ? ((net.minecraft.world.item.DyeableLeatherItem) stack.getItem()).getColor(stack) : -1,
+                com.akingno.winternightak.item.ModItems.FUR_WRAP.get());
         event.register((stack, tint) -> net.minecraft.world.level.FoliageColor.getEvergreenColor(),
                 com.akingno.winternightak.block.ModBlocks.CHRISTMAS_LEAVES.get());
     }

@@ -40,7 +40,8 @@ public class PolarSnowFeature extends Feature<NoneFeatureConfiguration> {
         for (int x = 0; x < 16; x++) for (int z = 0; z < 16; z++) {
             BlockPos top = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, context.origin().offset(x, 0, z));
             var ground = level.getBlockState(top.below());
-            if (level.isEmptyBlock(top) && (ground.is(ModBlocks.HARD_ICE.get()) || ground.is(ModBlocks.FROZEN_SOIL.get())))
+            if (level.isEmptyBlock(top) && (ground.is(ModBlocks.HARD_ICE.get()) || ground.is(ModBlocks.FROZEN_SOIL.get())
+                    || ground.is(Blocks.SAND)))
                 level.setBlock(top, Blocks.SNOW.defaultBlockState(), 2);
         }
         return true;

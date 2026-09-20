@@ -30,6 +30,7 @@ import java.util.OptionalLong;
 public final class PolarWorldgen {
     public static final ResourceKey<Biome> ICE_CAP = key(Registries.BIOME, "polar_ice_cap");
     public static final ResourceKey<Biome> ICE_PLAIN = key(Registries.BIOME, "ice_plain");
+    public static final ResourceKey<Biome> SNOWY_BEACH = key(Registries.BIOME, "snowy_beach");
     public static final ResourceKey<Biome> OCEAN = key(Registries.BIOME, "polar_ocean");
     public static final ResourceKey<NormalNoise.NoiseParameters> LAND_DISTRIBUTION = key(Registries.NOISE, "polar_distribution");
     public static final ResourceKey<NormalNoise.NoiseParameters> ISLAND_RELIEF = key(Registries.NOISE, "island_relief");
@@ -46,6 +47,10 @@ public final class PolarWorldgen {
     // 海洋阈值调高→海洋更多；岛屿阈值调高→冰原更少；两者之间为冰盖。
     public static final float OCEAN_THRESHOLD = -0.18F;
     public static final float ISLAND_THRESHOLD = 0.42F;
+    // 0.42至0.43为窄沙滩；调高0.43更宽，宽度不是固定方块数。
+    public static final float BEACH_INLAND_THRESHOLD = 0.43F;
+    // 内陆基础抬升上限：原15改20，最高区域约增高5格；不是绝对Y坐标，仍叠加起伏噪声。
+    public static final double ISLAND_MAX_RISE = 20.0;
 
     public static <T> ResourceKey<T> key(ResourceKey<? extends net.minecraft.core.Registry<T>> registry, String path) {
         return ResourceKey.create(registry, ResourceLocation.fromNamespaceAndPath(WinterNight.MOD_ID, path));
@@ -54,6 +59,8 @@ public final class PolarWorldgen {
     public static void bootstrapBiomes(BootstapContext<Biome> context) {
         context.register(ICE_CAP, biome(context, -0.5F, true, 0xA3C9E0, false));
         context.register(ICE_PLAIN, biome(context, -0.4F, true, 0xB9D8E8, true));
+        // 同冰原气候和动物，false关闭枯木；村庄仅允许ice_plain，不在沙滩增加结构起点。
+        context.register(SNOWY_BEACH, biome(context, -0.4F, true, 0xB9D8E8, false));
         // Vanilla freezing is controlled separately from Cold Sweat's environmental temperatures.
         context.register(OCEAN, biome(context, 0.16F, false, 0x648CAA, false));
     }
@@ -72,6 +79,7 @@ public final class PolarWorldgen {
                 spawns.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.WOLF, 1, 1, 2));
             // 仅雪原生成枯木，明确按群系用途区分，不依赖温度数值判断。
             if (icePlain) generation.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PolarDeadTreeFeature.PLACED);
+            if (icePlain) generation.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, key(Registries.PLACED_FEATURE, "shallow_clay"));
             generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, PolarSnowFeature.PLACED);
         } else {
             // 原版冰山阶段；密度在placed_feature中为16/200区块一次尝试，调低更密集。
@@ -104,13 +112,14 @@ public final class PolarWorldgen {
         // 冰盖固定在Y=43..62，共20格；上界62.5抬高会加厚上部，下界42.5降低会加厚下部。
         DensityFunction iceSheet = DensityFunctions.min(below(62.5),
                 DensityFunctions.yClampedGradient(MIN_Y, 320, MIN_Y - 42.5, 320 - 42.5));
-        // 32控制离岸向内的升高速度，保持岸线不变；基础抬升上限由10提高为15，岛内高处约增高5格。
-        // 最终还乘以下方起伏噪声，因此不是所有最高点都精确增加5格；调高15会放宽内陆高度上限。
-        DensityFunction inland = DensityFunctions.mul(DensityFunctions.constant(32),
-                DensityFunctions.add(continent, DensityFunctions.constant(-ISLAND_THRESHOLD))).clamp(0, 15);
-        // 岸线基准63.5接近海面；0.2是岛内随机起伏比例，调高更崎岖，降低更平坦。
-        DensityFunction island = DensityFunctions.add(below(63.5), DensityFunctions.mul(inland,
-                DensityFunctions.add(DensityFunctions.constant(1), DensityFunctions.mul(DensityFunctions.constant(0.2), relief))));
+        // 32为入陆升坡速度；从沙滩内侧开始爬升，整个沙滩保持Y=62沙面，与冰盖齐平。
+        DensityFunction inlandSlope = DensityFunctions.mul(DensityFunctions.constant(32),
+                DensityFunctions.add(continent, DensityFunctions.constant(-BEACH_INLAND_THRESHOLD)));
+        DensityFunction inland = inlandSlope.clamp(0, ISLAND_MAX_RISE);
+        // 沙滩基准62.5；进入内陆逐渐补回1格基准差，避免降低整个岛。0.2控制局部起伏幅度。
+        DensityFunction island = DensityFunctions.add(below(62.5), DensityFunctions.add(inlandSlope.clamp(0, 1),
+                DensityFunctions.mul(inland, DensityFunctions.add(DensityFunctions.constant(1),
+                        DensityFunctions.mul(DensityFunctions.constant(0.2), relief)))));
         DensityFunction terrain = DensityFunctions.rangeChoice(continent, ISLAND_THRESHOLD, 1000000,
                 island, DensityFunctions.rangeChoice(continent, -1000000, OCEAN_THRESHOLD,
                         oceanFloor, DensityFunctions.max(oceanFloor, iceSheet)));
@@ -122,6 +131,13 @@ public final class PolarWorldgen {
                 // yBlockCheck(9)表示Y>=9，取反覆盖Y<=8；调高9会抬高深板岩顶面。底部基岩规则优先。
                 SurfaceRules.ifTrue(SurfaceRules.not(SurfaceRules.yBlockCheck(VerticalAnchor.absolute(9), 0)),
                         SurfaceRules.state(Blocks.DEEPSLATE.defaultBlockState())),
+                // 沙滩复用地形噪声范围，避免群系边界插值导致硬冰/沙子交界出现大面积错位。
+                SurfaceRules.ifTrue(SurfaceRules.not(SurfaceRules.noiseCondition(LAND_DISTRIBUTION, BEACH_INLAND_THRESHOLD)),
+                        SurfaceRules.sequence(
+                                // 深度偏移2覆盖顶部约3格；调高会加厚沙层。
+                                SurfaceRules.ifTrue(SurfaceRules.stoneDepthCheck(2, false, CaveSurface.FLOOR),
+                                        SurfaceRules.state(Blocks.SAND.defaultBlockState())),
+                                SurfaceRules.state(ModBlocks.PERMAFROST.get().defaultBlockState()))),
                 SurfaceRules.ifTrue(SurfaceRules.stoneDepthCheck(3, false, CaveSurface.FLOOR),
                         SurfaceRules.state(ModBlocks.FROZEN_SOIL.get().defaultBlockState())),
                 SurfaceRules.state(ModBlocks.PERMAFROST.get().defaultBlockState()));
@@ -161,7 +177,8 @@ public final class PolarWorldgen {
         List<Pair<Climate.ParameterPoint, Holder<Biome>>> distribution = List.of(
                 Pair.of(parameters(-2.0F, OCEAN_THRESHOLD), biomes.getOrThrow(OCEAN)),
                 Pair.of(parameters(OCEAN_THRESHOLD, ISLAND_THRESHOLD), biomes.getOrThrow(ICE_CAP)),
-                Pair.of(parameters(ISLAND_THRESHOLD, 2.0F), biomes.getOrThrow(ICE_PLAIN)));
+                Pair.of(parameters(ISLAND_THRESHOLD, BEACH_INLAND_THRESHOLD), biomes.getOrThrow(SNOWY_BEACH)),
+                Pair.of(parameters(BEACH_INLAND_THRESHOLD, 2.0F), biomes.getOrThrow(ICE_PLAIN)));
         var source = MultiNoiseBiomeSource.createFromList(new Climate.ParameterList<>(distribution));
         var generator = new NoiseBasedChunkGenerator(source, context.lookup(Registries.NOISE_SETTINGS).getOrThrow(SETTINGS));
         var overworld = new LevelStem(context.lookup(Registries.DIMENSION_TYPE).getOrThrow(DIMENSION_TYPE), generator);

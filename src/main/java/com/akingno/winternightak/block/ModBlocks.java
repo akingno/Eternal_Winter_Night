@@ -70,7 +70,8 @@ public class ModBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.BEDROCK)
                     .mapColor(MapColor.DIRT).sound(SoundType.GRAVEL).noLootTable()));
     public static final RegistryObject<Block> FROZEN_SOIL = registerBlock("frozen_soil",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIRT).strength(1.5F)));
+            // 泥土硬度0.5，冻结土壤0.75；铲子标签提供工具效率，调高硬度挖得更慢。
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIRT).strength(0.75F)));
     public static final RegistryObject<Block> HARD_ICE = registerBlock("hard_ice",
             () -> new HardIceBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
                     .mapColor(MapColor.ICE).sound(SoundType.GLASS).noOcclusion()));

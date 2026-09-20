@@ -52,6 +52,7 @@ public class WinterNight
         com.akingno.winternightak.world.gen.PolarDeadTreeFeature.register();
         com.akingno.winternightak.world.gen.ChristmasTreeFeature.register();
         com.akingno.winternightak.world.gen.PolarIcebergFeature.register();
+        com.akingno.winternightak.world.gen.PolarClayFeature.register();
         com.akingno.winternightak.world.gen.PolarVillages.TYPES.register(modEventBus);
         com.akingno.winternightak.world.gen.PolarVillages.ELEMENT_TYPES.register(modEventBus);
 

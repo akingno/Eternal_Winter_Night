@@ -13,7 +13,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.UUID;
 
 /** 胸部皮毛斗篷：本类只管耐久、外观和减速；保暖值在cold_sweat/item/insulator/fur_wrap.json中。 */
-public class FurWrapItem extends ArmorItem {
+public class FurWrapItem extends ArmorItem implements DyeableLeatherItem {
     // MULTIPLY_TOTAL下-0.10表示速度乘0.9；越负越慢，0不减速。
     public static final double SPEED_PENALTY = -0.10;
     // 耐久80调高更耐用；防御/韧性/附魔值/击退抗性为0，定位是保暖衣物。
@@ -41,6 +41,6 @@ public class FurWrapItem extends ArmorItem {
 
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return "minecraft:textures/models/armor/diamond_layer_1.png";
+        return "winternightak:textures/models/armor/fur_wrap_layer_1" + ("overlay".equals(type) ? "_overlay" : "") + ".png";
     }
 }

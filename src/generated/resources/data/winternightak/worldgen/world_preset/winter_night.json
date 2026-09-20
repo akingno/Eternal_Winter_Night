@@ -11,29 +11,29 @@
               "biome": "winternightak:polar_ocean",
               "parameters": {
                 "continentalness": [
-                  -2.0,
+                  -2,
                   -0.18
                 ],
                 "depth": [
-                  -2.0,
-                  2.0
+                  -2,
+                  2
                 ],
                 "erosion": [
-                  -2.0,
-                  2.0
+                  -2,
+                  2
                 ],
                 "humidity": [
-                  -2.0,
-                  2.0
+                  -2,
+                  2
                 ],
-                "offset": 0.0,
+                "offset": 0,
                 "temperature": [
-                  -2.0,
-                  2.0
+                  -2,
+                  2
                 ],
                 "weirdness": [
-                  -2.0,
-                  2.0
+                  -2,
+                  2
                 ]
               }
             },
@@ -45,25 +45,55 @@
                   0.42
                 ],
                 "depth": [
-                  -2.0,
-                  2.0
+                  -2,
+                  2
                 ],
                 "erosion": [
-                  -2.0,
-                  2.0
+                  -2,
+                  2
                 ],
                 "humidity": [
-                  -2.0,
-                  2.0
+                  -2,
+                  2
                 ],
-                "offset": 0.0,
+                "offset": 0,
                 "temperature": [
-                  -2.0,
-                  2.0
+                  -2,
+                  2
                 ],
                 "weirdness": [
-                  -2.0,
-                  2.0
+                  -2,
+                  2
+                ]
+              }
+            },
+            {
+              "biome": "winternightak:snowy_beach",
+              "parameters": {
+                "continentalness": [
+                  0.42,
+                  0.43
+                ],
+                "depth": [
+                  -2,
+                  2
+                ],
+                "erosion": [
+                  -2,
+                  2
+                ],
+                "humidity": [
+                  -2,
+                  2
+                ],
+                "offset": 0,
+                "temperature": [
+                  -2,
+                  2
+                ],
+                "weirdness": [
+                  -2,
+                  2
                 ]
               }
             },
@@ -71,29 +101,29 @@
               "biome": "winternightak:ice_plain",
               "parameters": {
                 "continentalness": [
-                  0.42,
-                  2.0
+                  0.43,
+                  2
                 ],
                 "depth": [
-                  -2.0,
-                  2.0
+                  -2,
+                  2
                 ],
                 "erosion": [
-                  -2.0,
-                  2.0
+                  -2,
+                  2
                 ],
                 "humidity": [
-                  -2.0,
-                  2.0
+                  -2,
+                  2
                 ],
-                "offset": 0.0,
+                "offset": 0,
                 "temperature": [
-                  -2.0,
-                  2.0
+                  -2,
+                  2
                 ],
                 "weirdness": [
-                  -2.0,
-                  2.0
+                  -2,
+                  2
                 ]
               }
             }
