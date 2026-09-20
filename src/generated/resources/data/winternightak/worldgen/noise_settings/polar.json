@@ -73,7 +73,7 @@
                 }
               }
             },
-            "max": 10.0,
+            "max": 15.0,
             "min": 0.0
           },
           "argument2": {
@@ -189,7 +189,7 @@
                 }
               }
             },
-            "max": 10.0,
+            "max": 15.0,
             "min": 0.0
           },
           "argument2": {
@@ -333,6 +333,22 @@
         "then_run": {
           "type": "minecraft:sequence",
           "sequence": [
+            {
+              "type": "minecraft:condition",
+              "if_true": {
+                "type": "minecraft:not",
+                "invert": {
+                  "type": "minecraft:y_above",
+                  "add_stone_depth": false,
+                  "anchor": { "absolute": 9 },
+                  "surface_depth_multiplier": 0
+                }
+              },
+              "then_run": {
+                "type": "minecraft:block",
+                "result_state": { "Name": "minecraft:deepslate" }
+              }
+            },
             {
               "type": "minecraft:condition",
               "if_true": {

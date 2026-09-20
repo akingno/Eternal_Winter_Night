@@ -11,6 +11,21 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = WinterNight.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 /** 只在客户端注册粒子工厂和物品外观条件，避免专用服务器加载渲染类。 */
 public class ClientModEvents {
+    @SubscribeEvent
+    public static void registerLeafColors(net.minecraftforge.client.event.RegisterColorHandlersEvent.Block event) {
+        // 原版云杉使用固定常绿叶色，不随群系变色；物品也使用同色。
+        event.register((state, level, pos, tint) -> net.minecraft.world.level.FoliageColor.getEvergreenColor(),
+                com.akingno.winternightak.block.ModBlocks.CHRISTMAS_LEAVES.get());
+    }
+    @SubscribeEvent
+    public static void registerLeafItemColors(net.minecraftforge.client.event.RegisterColorHandlersEvent.Item event) {
+        event.register((stack, tint) -> net.minecraft.world.level.FoliageColor.getEvergreenColor(),
+                com.akingno.winternightak.block.ModBlocks.CHRISTMAS_LEAVES.get());
+    }
+    @SubscribeEvent
+    public static void registerEntityRenderers(net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(com.akingno.winternightak.entity.ModEntities.STONE_JAVELIN.get(), StoneJavelinRenderer::new);
+    }
 
     @SubscribeEvent
     // spent属性只决定燃尽火把的物品外观，不控制实际燃料或服务器点火行为。

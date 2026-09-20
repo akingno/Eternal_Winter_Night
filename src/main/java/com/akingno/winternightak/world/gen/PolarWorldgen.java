@@ -74,6 +74,9 @@ public final class PolarWorldgen {
             if (icePlain) generation.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PolarDeadTreeFeature.PLACED);
             generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, PolarSnowFeature.PLACED);
         } else {
+            // 原版冰山阶段；密度在placed_feature中为16/200区块一次尝试，调低更密集。
+            generation.addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, key(Registries.PLACED_FEATURE, "iceberg_packed"));
+            generation.addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, key(Registries.PLACED_FEATURE, "iceberg_blue"));
             spawns.addSpawn(MobCategory.WATER_CREATURE, new MobSpawnSettings.SpawnerData(EntityType.SQUID, 10, 1, 3));
             spawns.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(EntityType.SALMON, 10, 3, 5));
             spawns.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(EntityType.COD, 10, 3, 5));
@@ -101,9 +104,10 @@ public final class PolarWorldgen {
         // 冰盖固定在Y=43..62，共20格；上界62.5抬高会加厚上部，下界42.5降低会加厚下部。
         DensityFunction iceSheet = DensityFunctions.min(below(62.5),
                 DensityFunctions.yClampedGradient(MIN_Y, 320, MIN_Y - 42.5, 320 - 42.5));
-        // 32控制离岸向内的升高速度，调高岸坡更陡；clamp的10限制基础抬升，调高岛内更高。
+        // 32控制离岸向内的升高速度，保持岸线不变；基础抬升上限由10提高为15，岛内高处约增高5格。
+        // 最终还乘以下方起伏噪声，因此不是所有最高点都精确增加5格；调高15会放宽内陆高度上限。
         DensityFunction inland = DensityFunctions.mul(DensityFunctions.constant(32),
-                DensityFunctions.add(continent, DensityFunctions.constant(-ISLAND_THRESHOLD))).clamp(0, 10);
+                DensityFunctions.add(continent, DensityFunctions.constant(-ISLAND_THRESHOLD))).clamp(0, 15);
         // 岸线基准63.5接近海面；0.2是岛内随机起伏比例，调高更崎岖，降低更平坦。
         DensityFunction island = DensityFunctions.add(below(63.5), DensityFunctions.mul(inland,
                 DensityFunctions.add(DensityFunctions.constant(1), DensityFunctions.mul(DensityFunctions.constant(0.2), relief))));
@@ -115,6 +119,9 @@ public final class PolarWorldgen {
 
         // 岛屿表面3格冻结土壤，以下永久冻土；stoneDepthCheck的3调高会增厚可挖土层。
         SurfaceRules.RuleSource islandSurface = SurfaceRules.sequence(
+                // yBlockCheck(9)表示Y>=9，取反覆盖Y<=8；调高9会抬高深板岩顶面。底部基岩规则优先。
+                SurfaceRules.ifTrue(SurfaceRules.not(SurfaceRules.yBlockCheck(VerticalAnchor.absolute(9), 0)),
+                        SurfaceRules.state(Blocks.DEEPSLATE.defaultBlockState())),
                 SurfaceRules.ifTrue(SurfaceRules.stoneDepthCheck(3, false, CaveSurface.FLOOR),
                         SurfaceRules.state(ModBlocks.FROZEN_SOIL.get().defaultBlockState())),
                 SurfaceRules.state(ModBlocks.PERMAFROST.get().defaultBlockState()));

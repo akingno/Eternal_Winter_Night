@@ -23,8 +23,13 @@ public final class PolarVillagerTrades {
     // 工具匠出售冰镐需40皮毛，武器匠出售标枪需15硬冰；调高分别提高对应价格。
     private static final int PICK_FUR_COST = 40;
     private static final int JAVELIN_ICE_COST = 15;
+    // 32份生动物肉换1把弓；调高提高狩猎成本，补货次数复用MAX_USES。
+    private static final int BOW_MEAT_COST = 32;
     // 16根云杉原木换1块铁板；调高原木数会减慢可再生铁的获取速度。
     private static final int METAL_LOG_COST = 16;
+    // 1铁锭买1苗，每次补货最多4次；调高价格或调低次数可减慢木材再生。
+    private static final int TREE_IRON_COST = 1;
+    private static final int TREE_MAX_USES = 4;
     // 牧师红石交易同时消耗4份油脂和8根云杉原木；分别调高会增加狩猎或伐木压力。
     private static final int REDSTONE_FAT_COST = 4;
     private static final int REDSTONE_LOG_COST = 8;
@@ -45,10 +50,48 @@ public final class PolarVillagerTrades {
         var profession = villager.getVillagerData().getProfession();
         String key = net.minecraftforge.registries.ForgeRegistries.VILLAGER_PROFESSIONS.getKey(profession).toString();
         // 工具匠升到v3以给旧村民追加铁板；牧师首次加入Phase 3交易。旧渔夫指南针目标不重置。
-        if (profession == VillagerProfession.TOOLSMITH) key += ":v3";
-        else if (profession == VillagerProfession.WEAPONSMITH) key += ":v2";
+        if (profession == VillagerProfession.TOOLSMITH) key += ":v4";
+        else if (profession == VillagerProfession.WEAPONSMITH) key += ":v3";
         else if (profession == VillagerProfession.CLERIC) key += ":v3";
         var data = villager.getPersistentData();
+        // 旧武器匠只追加弓，不重置标枪交易的已用次数和补货状态。
+        if (profession == VillagerProfession.WEAPONSMITH && data.getString(VERSION_KEY).equals("minecraft:weaponsmith:v2")
+                && !villager.getOffers().isEmpty()) {
+            if (villager.getOffers().stream().noneMatch(offer -> offer.getResult().is(Items.BOW)))
+                villager.getOffers().add(bowOffer());
+            data.putString(VERSION_KEY, key);
+            return;
+        }
+        // 渔夫单独按商品补齐，保留指南针坐标、原交易次数；定位失败也能购买标枪。
+        if (profession == VillagerProfession.FISHERMAN) {
+            var offers = villager.getOffers();
+            offers.removeIf(offer -> !offer.getResult().is(ModItems.VILLAGE_COMPASS.get())
+                    && !offer.getResult().is(ModItems.STONE_JAVELIN.get()));
+            if (offers.stream().noneMatch(offer -> offer.getResult().is(ModItems.STONE_JAVELIN.get()))) {
+                // 30份生动物肉换1支，每次补货12次；增加30提高狩猎成本。
+                offers.add(new MerchantOffer(new ItemStack(ModItems.RAW_GAME_MEAT.get(), 30),
+                        new ItemStack(ModItems.STONE_JAVELIN.get()), MAX_USES, 0, 0.0F));
+            }
+            if (offers.stream().noneMatch(offer -> offer.getResult().is(ModItems.VILLAGE_COMPASS.get()))
+                    && level.getGameTime() >= data.getLong(RETRY_KEY)) {
+                data.putLong(RETRY_KEY, level.getGameTime() + RETRY_TICKS);
+                var target = PolarVillageLocator.find(level, villager.blockPosition());
+                if (target != null) {
+                    var compass = new ItemStack(ModItems.VILLAGE_COMPASS.get());
+                    VillageCompassItem.bind(compass, level, target);
+                    offers.add(new MerchantOffer(new ItemStack(ItemInit.GOAT_FUR.get(), FUR_COST), compass, MAX_USES, 0, 0.0F));
+                }
+            }
+            data.putString(VERSION_KEY, key);
+            return;
+        }
+        // 旧v3工具匠只追加树苗，保留冰镐、铁板已有的使用次数与补货状态。
+        if (profession == VillagerProfession.TOOLSMITH && data.getString(VERSION_KEY).equals("minecraft:toolsmith:v3")
+                && !villager.getOffers().isEmpty()) {
+            villager.getOffers().add(treeOffer());
+            data.putString(VERSION_KEY, key);
+            return;
+        }
         boolean hasCustomOffers = profession == VillagerProfession.FISHERMAN
                 || profession == VillagerProfession.TOOLSMITH
                 || profession == VillagerProfession.WEAPONSMITH
@@ -69,7 +112,9 @@ public final class PolarVillagerTrades {
                 // 第二项交易形成主动伐木→文明交易→铁板的可再生金属路线。
                 offers.add(new MerchantOffer(new ItemStack(Items.SPRUCE_LOG, METAL_LOG_COST),
                         new ItemStack(ModItems.METAL_PART.get()), MAX_USES, 0, 0.0F));
+                offers.add(treeOffer());
             }
+            else offers.add(bowOffer());
             villager.setOffers(offers);
             data.putString(VERSION_KEY, key);
             return;
@@ -105,4 +150,12 @@ public final class PolarVillagerTrades {
         data.putString(VERSION_KEY, key);
     }
     private PolarVillagerTrades() {}
+    private static MerchantOffer bowOffer() {
+        return new MerchantOffer(new ItemStack(ModItems.RAW_GAME_MEAT.get(), BOW_MEAT_COST),
+                new ItemStack(Items.BOW), MAX_USES, 0, 0.0F);
+    }
+    private static MerchantOffer treeOffer() {
+        return new MerchantOffer(new ItemStack(Items.IRON_INGOT, TREE_IRON_COST),
+                new ItemStack(com.akingno.winternightak.block.ModBlocks.CHRISTMAS_TREE_SAPLING.get()), TREE_MAX_USES, 0, 0.0F);
+    }
 }

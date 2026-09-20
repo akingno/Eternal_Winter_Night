@@ -32,6 +32,8 @@ public class ModCreativeModTabs {
                         output.accept(ModItems.VILLAGE_COMPASS.get());
                         output.accept(ModItems.STONE_JAVELIN.get());
                         output.accept(ModItems.METAL_PART.get());
+                        output.accept(ModBlocks.CHRISTMAS_TREE_SAPLING.get());
+                        output.accept(ModBlocks.CHRISTMAS_LEAVES.get());
                         output.accept(ModBlocks.POLAR_WORKBENCH.get());
                         output.accept(ModBlocks.HEATER.get());
                         output.accept(ModBlocks.SUN_LAMP.get());

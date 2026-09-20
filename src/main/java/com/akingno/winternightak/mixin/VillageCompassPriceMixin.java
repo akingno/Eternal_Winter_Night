@@ -16,7 +16,8 @@ public abstract class VillageCompassPriceMixin {
         for (var offer : ((Villager)(Object)this).getOffers()) {
             if (offer.getResult().is(ModItems.VILLAGE_COMPASS.get()) || offer.getResult().is(ModItems.ICE_PICK.get())
                     || offer.getResult().is(ModItems.STONE_JAVELIN.get()) || offer.getResult().is(ModItems.METAL_PART.get())
-                    || offer.getResult().is(Items.REDSTONE)) offer.resetSpecialPriceDiff();
+                    || offer.getResult().is(Items.REDSTONE) || offer.getResult().is(Items.BOW)
+                    || offer.getResult().is(com.akingno.winternightak.block.ModBlocks.CHRISTMAS_TREE_SAPLING.get().asItem())) offer.resetSpecialPriceDiff();
         }
     }
 }

@@ -25,6 +25,11 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, WinterNight.MOD_ID);
 
     // 此处注册设备方块及其照明；配方/掉落在data资源中，供暖在compat.CampfireTemperature。
+    public static final RegistryObject<Block> CHRISTMAS_TREE_SAPLING = registerBlock("christmas_tree_sapling",
+            () -> new ChristmasTreeSaplingBlock(BlockBehaviour.Properties.copy(Blocks.SPRUCE_SAPLING)));
+    // 独立掉落表：只允许精准采集掉自身，沿用原版树叶距离与消失机制。
+    public static final RegistryObject<Block> CHRISTMAS_LEAVES = registerBlock("christmas_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.SPRUCE_LEAVES)));
     public static final RegistryObject<Block> POLAR_WORKBENCH = registerBlock("polar_workbench",
             () -> new PolarWorkbenchBlock(BlockBehaviour.Properties.copy(Blocks.CRAFTING_TABLE)));
     public static final RegistryObject<Block> HEATER = registerBlock("heater",
