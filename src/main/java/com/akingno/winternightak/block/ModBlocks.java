@@ -33,7 +33,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> POLAR_WORKBENCH = registerBlock("polar_workbench",
             () -> new PolarWorkbenchBlock(BlockBehaviour.Properties.copy(Blocks.CRAFTING_TABLE)));
     public static final RegistryObject<Block> HEATER = registerBlock("heater",
-            () -> new HeaterBlock(BlockBehaviour.Properties.copy(Blocks.OBSERVER)));
+            () -> new HeaterBlock(BlockBehaviour.Properties.copy(Blocks.OBSERVER)
+                    // 与太阳灯相同，由 LIT 状态控制亮度；6 为工作时的光照等级，调高会照得更远。
+                    .lightLevel(state -> state.getValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT) ? 6 : 0)));
     public static final RegistryObject<Block> SUN_LAMP = registerBlock("sun_lamp",
             () -> new AdjacentRedstoneBlock(BlockBehaviour.Properties.copy(Blocks.REDSTONE_LAMP)
                     .lightLevel(state -> state.getValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT) ? 15 : 0)));

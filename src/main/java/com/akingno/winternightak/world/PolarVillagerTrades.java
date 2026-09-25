@@ -25,8 +25,8 @@ public final class PolarVillagerTrades {
     private static final int JAVELIN_ICE_COST = 15;
     // 32份生动物肉换1把弓；调高提高狩猎成本，补货次数复用MAX_USES。
     private static final int BOW_MEAT_COST = 32;
-    // 16根云杉原木换1块铁板；调高原木数会减慢可再生铁的获取速度。
-    private static final int METAL_LOG_COST = 16;
+    // 10根云杉原木换1块铁板；调高原木数会减慢可再生铁的获取速度。
+    private static final int METAL_LOG_COST = 10;
     // 1铁锭买1苗，每次补货最多4次；调高价格或调低次数可减慢木材再生。
     private static final int TREE_IRON_COST = 1;
     private static final int TREE_MAX_USES = 4;
@@ -50,9 +50,10 @@ public final class PolarVillagerTrades {
         var profession = villager.getVillagerData().getProfession();
         String key = net.minecraftforge.registries.ForgeRegistries.VILLAGER_PROFESSIONS.getKey(profession).toString();
         // 工具匠升到v3以给旧村民追加铁板；牧师首次加入Phase 3交易。旧渔夫指南针目标不重置。
-        if (profession == VillagerProfession.TOOLSMITH) key += ":v4";
+        if (profession == VillagerProfession.TOOLSMITH) key += ":v5";
         else if (profession == VillagerProfession.WEAPONSMITH) key += ":v3";
         else if (profession == VillagerProfession.CLERIC) key += ":v3";
+        else if (profession == VillagerProfession.LEATHERWORKER) key += ":v1";
         var data = villager.getPersistentData();
         // 旧武器匠只追加弓，不重置标枪交易的已用次数和补货状态。
         if (profession == VillagerProfession.WEAPONSMITH && data.getString(VERSION_KEY).equals("minecraft:weaponsmith:v2")
@@ -85,17 +86,11 @@ public final class PolarVillagerTrades {
             data.putString(VERSION_KEY, key);
             return;
         }
-        // 旧v3工具匠只追加树苗，保留冰镐、铁板已有的使用次数与补货状态。
-        if (profession == VillagerProfession.TOOLSMITH && data.getString(VERSION_KEY).equals("minecraft:toolsmith:v3")
-                && !villager.getOffers().isEmpty()) {
-            villager.getOffers().add(treeOffer());
-            data.putString(VERSION_KEY, key);
-            return;
-        }
         boolean hasCustomOffers = profession == VillagerProfession.FISHERMAN
                 || profession == VillagerProfession.TOOLSMITH
                 || profession == VillagerProfession.WEAPONSMITH
-                || profession == VillagerProfession.CLERIC;
+                || profession == VillagerProfession.CLERIC
+                || profession == VillagerProfession.LEATHERWORKER;
         // 职业未变且已迁移时不覆盖，保存购买次数、补货状态和目标坐标。
         if (key.equals(data.getString(VERSION_KEY))
                 && (!hasCustomOffers || !villager.getOffers().isEmpty())) return;
@@ -119,12 +114,10 @@ public final class PolarVillagerTrades {
             data.putString(VERSION_KEY, key);
             return;
         }
-        if (profession == VillagerProfession.CLERIC) {
+        if (profession == VillagerProfession.CLERIC || profession == VillagerProfession.LEATHERWORKER) {
             var offers = new MerchantOffers();
-            // 双输入交易：第一格油脂、第二格云杉原木，产出红石；不恢复红石矿或怪物资源链。
-            offers.add(new MerchantOffer(new ItemStack(ModItems.ANIMAL_FAT.get(), REDSTONE_FAT_COST),
-                    new ItemStack(Items.SPRUCE_LOG, REDSTONE_LOG_COST),
-                    new ItemStack(Items.REDSTONE, REDSTONE_RESULT), MAX_USES, 0, 0.0F));
+            // 两种职业使用完全相同的双输入红石交易；不恢复红石矿或怪物资源链。
+            offers.add(redstoneOffer());
             villager.setOffers(offers);
             data.putString(VERSION_KEY, key);
             return;
@@ -153,6 +146,11 @@ public final class PolarVillagerTrades {
     private static MerchantOffer bowOffer() {
         return new MerchantOffer(new ItemStack(ModItems.RAW_GAME_MEAT.get(), BOW_MEAT_COST),
                 new ItemStack(Items.BOW), MAX_USES, 0, 0.0F);
+    }
+    private static MerchantOffer redstoneOffer() {
+        return new MerchantOffer(new ItemStack(ModItems.ANIMAL_FAT.get(), REDSTONE_FAT_COST),
+                new ItemStack(Items.SPRUCE_LOG, REDSTONE_LOG_COST),
+                new ItemStack(Items.REDSTONE, REDSTONE_RESULT), MAX_USES, 0, 0.0F);
     }
     private static MerchantOffer treeOffer() {
         return new MerchantOffer(new ItemStack(Items.IRON_INGOT, TREE_IRON_COST),

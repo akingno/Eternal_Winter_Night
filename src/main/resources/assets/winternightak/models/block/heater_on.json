@@ -1,12 +1,3 @@
 {
-  "parent": "minecraft:block/cube",
-  "textures": {
-    "particle": "winternightak:block/heater_side",
-    "down": "winternightak:block/heater_top",
-    "up": "winternightak:block/heater_top",
-    "north": "winternightak:block/heater_front",
-    "south": "winternightak:block/heater_back_on",
-    "east": "winternightak:block/heater_side",
-    "west": "winternightak:block/heater_side"
-  }
+  "parent": "winternightak:block/heater"
 }

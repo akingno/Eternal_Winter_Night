@@ -61,7 +61,7 @@
 
 <section id="ecology"><h2>Phase 1｜生态与基础物品</h2>
 <article class="feature" data-searchable><div class="feature-head"><h3>动物与狩猎</h3><div class="badges"><span class="badge p1">Ecology</span></div></div>
-<p>陆地只保留兔、狐狸和狼，海洋只保留鱿鱼、鳕鱼、鲑鱼；兔和狐狸固定雪地外观。主要掉落是生动物肉、油脂和 Cold Sweat 毛皮，不掉皮革。狐狸10%概率叼物，其中肉和毛皮各半。</p>
+<p>陆地只保留兔、狐狸和狼，海洋只保留鱿鱼、鳕鱼、鲑鱼；兔和狐狸固定雪地外观。狼掉落1～2份生动物肉和1～2份油脂，抢夺可增加数量；兔、狐狸及水生动物使用各自狩猎表。兔、狐、狼不掉皮革。狐狸10%概率叼物，其中肉和毛皮各半。</p>
 <div class="files"><a href="src/main/java/com/akingno/winternightak/world/PolarSpawning.java">PolarSpawning.java</a><br><a href="src/main/java/com/akingno/winternightak/loot/HuntingLootModifier.java">HuntingLootModifier.java</a><br><span class="path">data/winternightak/loot_tables/hunting/</span></div></article>
 <article class="feature" data-searchable><div class="feature-head"><h3>硬冰资源链</h3><div class="badges"><span class="badge p1">Resource Chain</span></div></div>
 <p>硬冰使用冰外观、铁块级强度，只能由冰镐有效开采，并掉冰砖；TNT破坏也可掉冰砖。冰半砖可上下合成为硬冰。冰镐无玩家配方，由工具匠出售。</p>
@@ -98,9 +98,9 @@
 <p>渔夫用原版结构定位接口寻找100区块范围内最近雪村，将维度和坐标保存到指南针；失败后1200 tick再试。</p>
 <table><thead><tr><th>职业</th><th>输入</th><th>输出</th></tr></thead><tbody>
 <tr><td>渔夫</td><td>20毛皮</td><td>村庄指南针</td></tr><tr><td>渔夫</td><td>30生动物肉</td><td>石标枪</td></tr>
-<tr><td>工具匠</td><td>40毛皮</td><td>冰镐</td></tr><tr><td>工具匠</td><td>16云杉原木</td><td>铁板</td></tr><tr><td>工具匠</td><td>1铁锭</td><td>圣诞树苗（补货4次）</td></tr>
+<tr><td>工具匠</td><td>40毛皮</td><td>冰镐</td></tr><tr><td>工具匠</td><td>10云杉原木</td><td>铁板</td></tr><tr><td>工具匠</td><td>1铁锭</td><td>圣诞树苗（补货4次）</td></tr>
 <tr><td>武器匠</td><td>15硬冰</td><td>石标枪</td></tr><tr><td>武器匠</td><td>32生动物肉</td><td>弓</td></tr>
-<tr><td>牧师</td><td>4油脂 + 8云杉原木</td><td>1红石</td></tr>
+<tr><td>牧师或皮匠</td><td>4油脂 + 8云杉原木</td><td>1红石</td></tr>
 </tbody></table>
 <p>除树苗外通常每次补货上限12。旧村民按职业版本迁移，尽量保留交易使用次数和指南针坐标。</p>
 <div class="files"><a href="src/main/java/com/akingno/winternightak/world/PolarVillagerTrades.java">PolarVillagerTrades.java</a><br><a href="src/main/java/com/akingno/winternightak/world/PolarVillageLocator.java">PolarVillageLocator.java</a> · <a href="src/main/java/com/akingno/winternightak/item/custom/VillageCompassItem.java">VillageCompassItem.java</a></div></article>
@@ -118,7 +118,7 @@
 
 <section id="materials"><h2>Phase 3｜铁板与红石</h2>
 <article class="feature" data-searchable><div class="feature-head"><h3>文明资源路线</h3><div class="badges"><span class="badge p3">Phase 3</span></div></div>
-<p>16云杉原木交易1铁板；铁板在熔炉200 tick或高炉100 tick炼成1铁锭，经验0.7。牧师以4油脂和8云杉原木出售1红石。世界没有矿物生成。</p>
+<p>10云杉原木交易1铁板；铁板在熔炉200 tick或高炉100 tick炼成1铁锭，经验0.7。牧师和皮匠均以4油脂和8云杉原木出售1红石。世界没有矿物生成。</p>
 <div class="files"><a href="src/main/java/com/akingno/winternightak/item/custom/MetalPartItem.java">MetalPartItem.java</a><br><a href="src/main/resources/data/winternightak/recipes/metal_part_smelting.json">metal_part_smelting.json</a> · <a href="src/main/resources/data/winternightak/recipes/metal_part_blasting.json">metal_part_blasting.json</a></div></article>
 </section>
 

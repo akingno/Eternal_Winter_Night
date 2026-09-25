@@ -1,10 +1,12 @@
 {
   "variants": {
-    "lit=false": {
-      "model": "winternightak:block/heater"
-    },
-    "lit=true": {
-      "model": "winternightak:block/heater_on"
-    }
+    "facing=north,lit=false": { "model": "winternightak:block/heater" },
+    "facing=east,lit=false": { "model": "winternightak:block/heater", "y": 90 },
+    "facing=south,lit=false": { "model": "winternightak:block/heater", "y": 180 },
+    "facing=west,lit=false": { "model": "winternightak:block/heater", "y": 270 },
+    "facing=north,lit=true": { "model": "winternightak:block/heater_on" },
+    "facing=east,lit=true": { "model": "winternightak:block/heater_on", "y": 90 },
+    "facing=south,lit=true": { "model": "winternightak:block/heater_on", "y": 180 },
+    "facing=west,lit=true": { "model": "winternightak:block/heater_on", "y": 270 }
   }
 }
